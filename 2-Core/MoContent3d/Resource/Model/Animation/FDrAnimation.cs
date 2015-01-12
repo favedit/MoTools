@@ -39,6 +39,11 @@ namespace MO.Content3d.Resource.Model.Animation
       }
 
       //============================================================
+      public bool IsEmpty(){
+         return _tracks.IsEmpty;
+      }
+
+      //============================================================
       public int FrameTick {
          get { return _frameTick; }
       }

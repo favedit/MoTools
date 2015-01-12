@@ -88,9 +88,9 @@ namespace MO.Content3d.Resource.Model.Animation
       //============================================================
       public void Serialize(IOutput output) {
          // 保存编号
-         output.WriteInt8((sbyte)_adjustId);
+         output.WriteUint8((byte)_adjustId);
          // 保存所有子
-         output.WriteInt8((sbyte)_children.Count);
+         output.WriteUint8((byte)_children.Count);
          foreach (FDrBone bone in _children) {
             bone.Serialize(output);
          }

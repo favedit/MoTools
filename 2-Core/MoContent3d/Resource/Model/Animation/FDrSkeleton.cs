@@ -27,6 +27,11 @@ namespace MO.Content3d.Resource.Model.Animation
       }
 
       //============================================================
+      public bool IsEmpty(){
+         return _bones.IsEmpty();
+      }
+
+      //============================================================
       public FVector<FDrBone> Roots {
          get { return _roots; }
       }
@@ -67,7 +72,7 @@ namespace MO.Content3d.Resource.Model.Animation
       
       //============================================================
       public void Serialize(IOutput output) {
-         output.WriteInt8((sbyte)_roots.Count);
+         output.WriteUint8((byte)_roots.Count);
          foreach (FDrBone bone in _roots) {
             bone.Serialize(output);
          }

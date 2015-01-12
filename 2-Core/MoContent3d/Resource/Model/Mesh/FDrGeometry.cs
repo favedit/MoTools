@@ -1266,18 +1266,16 @@ namespace MO.Content3d.Resource.Model.Mesh
                   pair.Value.Position.Serialize(stream);
                }
             }
-            //if(!_colorList.IsEmpty) {
-            //   streamCount++;
-            //   flags |= EDrVertex.Color;
-            //   int vertexStride = sizeof(byte) * 4;
-            //   //stream.WriteUint8((byte)EVertexBuffer3d.Color);
-            //   stream.WriteAnsiString(EContent3dAttribute.Color);
-            //   stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
-            //   stream.WriteUint8((byte)vertexStride);
-            //   stream.WriteUint8((byte)offset);
-            //   offset += vertexStride;
-            //}
-            if(!_coordList.IsEmpty) {
+            if (!_colorList.IsEmpty) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.Color);
+               stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
+               stream.WriteUint8((byte)sizeof(byte) * 4);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.Color.SerializeByteUnsigned4(stream);
+               }
+            }
+            if (!_coordList.IsEmpty) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.Coord);
                stream.WriteUint8((byte)ERenderVertexFormat.Float2);
@@ -1286,18 +1284,16 @@ namespace MO.Content3d.Resource.Model.Mesh
                   pair.Value.Coord.Serialize(stream);
                }
             }
-            //if(EDrFlag.Yes == _optionLight) {
-            //   streamCount++;
-            //   flags |= EDrVertex.CoordLight;
-            //   int vertexStride = sizeof(float) * 2;
-            //   //stream.WriteUint8((byte)EVertexBuffer3d.CoordLight);
-            //   stream.WriteAnsiString(EContent3dAttribute.CoordLight);
-            //   stream.WriteUint8((byte)ERenderVertexFormat.Float2);
-            //   stream.WriteUint8((byte)vertexStride);
-            //   stream.WriteUint8((byte)offset);
-            //   offset += vertexStride;
-            //}
-            if(!_normalList.IsEmpty) {
+            if (EDrFlag.Yes == _optionLight) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.CoordLight);
+               stream.WriteUint8((byte)ERenderVertexFormat.Float2);
+               stream.WriteUint8((byte)sizeof(float) * 2);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.LightCoord.Serialize(stream);
+               }
+            }
+            if (!_normalList.IsEmpty) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.Normal);
                stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
@@ -1324,28 +1320,24 @@ namespace MO.Content3d.Resource.Model.Mesh
                   pair.Value.Tangent.SerializeByteSigned3(stream, 255);
                }
             }
-            //if(_weightMaxCount > 0) {
-            //   // 写出骨头索引
-            //   streamCount++;
-            //   flags |= EDrVertex.BoneIndex;
-            //   int vertexStride = sizeof(byte) * 4;
-            //   //stream.WriteUint8((byte)EVertexBuffer3d.BoneIndex);
-            //   stream.WriteAnsiString(EContent3dAttribute.BoneIndex);
-            //   stream.WriteUint8((byte)ERenderVertexFormat.Byte4);
-            //   stream.WriteUint8((byte)vertexStride);
-            //   stream.WriteUint8((byte)offset);
-            //   offset += vertexStride;
-            //   // 写出骨头权重
-            //   streamCount++;
-            //   flags |= EDrVertex.BoneWeight;
-            //   vertexStride = sizeof(byte) * 4;
-            //   //stream.WriteUint8((byte)EVertexBuffer3d.BoneWeight);
-            //   stream.WriteAnsiString(EContent3dAttribute.BoneWeight);
-            //   stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
-            //   stream.WriteUint8((byte)vertexStride);
-            //   stream.WriteUint8((byte)offset);
-            //   offset += vertexStride;
-            //}
+            if (_weightMaxCount > 0) {
+               // 写出骨头索引
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.BoneIndex);
+               stream.WriteUint8((byte)ERenderVertexFormat.Byte4);
+               stream.WriteUint8((byte)sizeof(byte) * 4);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.SerializeBoneIndex(this, stream);
+               }
+               // 写出骨头权重
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.BoneWeight);
+               stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
+               stream.WriteUint8((byte)sizeof(byte) * 4);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.SerializeBoneWeight(this, stream);
+               }
+            }
             // 写入流信息
             output.WriteInt8((sbyte)streamCount);
             output.WriteBytes(stream.Memory, 0, stream.Length);
@@ -1360,105 +1352,18 @@ namespace MO.Content3d.Resource.Model.Mesh
          }
          //............................................................
          // 输出骨骼列表
-         //output.WriteUint8((byte)_adjustBones.Count);
-         //foreach (FDrBone bone in _adjustBones.Values) {
-         //output.WriteUint8((byte)bone.AdjustId);
-         //}
-         //............................................................
-         // 输出跟踪列表
-         _track.Serialize(output);
-         //_logger.Debug(this, "Serialize", "Serialize sub mesh success. (id={0}, name={1}, material={2}, vertex_count={3}, vertex_size={4}, face_count={5}, bone_count={6}, frame_count={7})",
-         //_adjustId, _name, _materialName, _adjustVertexDictionary.Count, index, _faceList.Count, _adjustBones.Count, _track.FrameList.Count);
-      }
-
-      //============================================================
-      // <T>序列化数据到输出流。</T>
-      //============================================================
-      public void Serialize2(IOutput output) {
-         output.WriteString(_name);
-         output.WriteString(MaterialCode);
-         // 存储设置
-         output.WriteUint8((byte)_optionInstanced);
-         output.WriteUint8((byte)_instanceCount);
-         output.WriteUint8((byte)_optionDynamic);
-         output.WriteUint8((byte)_optionBoneScale);
-         output.WriteUint8((byte)_optionShadow);
-         output.WriteUint8((byte)_optionSelfShadow);
-         output.WriteUint8((byte)_optionNormalFull);
-         output.WriteUint8((byte)_optionLight);
-         output.WriteUint8((byte)_optionSelect);
-         output.WriteUint8((byte)_optionGround);
-         // 输出矩阵信息
-         _worldMatrix.Serialize(output);
-         // 输出轮廓
-         _outlineMin.Serialize(output);
-         _outlineMax.Serialize(output);
-         // 输出顶点标志
-         int flags = 0;
-         output.WriteInt8((sbyte)(_adjustVertexDictionary.IsEmpty() ? 0 : 1));
-         if (!_adjustVertexDictionary.IsEmpty()) {
-            flags |= EDrVertex.Position;
-         }
-         output.WriteInt8((sbyte)(_colorList.IsEmpty ? 0 : 1));
-         if (!_colorList.IsEmpty) {
-            flags |= EDrVertex.Color;
-         }
-         output.WriteInt8((sbyte)(_coordList.IsEmpty ? 0 : 1));
-         if (!_coordList.IsEmpty) {
-            flags |= EDrVertex.Coord;
-         }
-         output.WriteInt8((sbyte)((EDrFlag.Yes == _optionLight) ? 1 : 0));
-         if (EDrFlag.Yes == _optionLight) {
-            flags |= EDrVertex.CoordLight;
-         }
-         output.WriteInt8((sbyte)(_normalList.IsEmpty ? 0 : 1));
-         if (!_normalList.IsEmpty) {
-            flags |= EDrVertex.Normal;
-         }
-         if (EDrFlag.Yes == _optionNormalFull) {
-            output.WriteInt8((sbyte)(_binormalList.IsEmpty ? 0 : 1));
-            if (!_binormalList.IsEmpty) {
-               flags |= EDrVertex.Binormal;
-            }
-            output.WriteInt8((sbyte)(_tangentList.IsEmpty ? 0 : 1));
-            if (!_tangentList.IsEmpty) {
-               flags |= EDrVertex.Tangent;
-            }
-         } else {
-            output.WriteInt8((sbyte)0);
-            output.WriteInt8((sbyte)0);
-         }
-         output.WriteInt8((sbyte)(_weightMaxCount > 0 ? 1 : 0));
-         if (_weightMaxCount > 0) {
-            flags |= EDrVertex.BoneIndex;
-            flags |= EDrVertex.BoneWeight;
-         }
-         // 输出顶点信息
-         if (_adjustVertexDictionary.Count >= 65536) {
-            _logger.Debug(this, "Serialize", "Too many vectex. (name={0}, vertex_count={1})", _name, _adjustVertexDictionary.Count);
-            //throw new FFatalException("Too many vectex. (name={0}, vertex_count={1})", _name, _adjustVertexDictionary.Count);
-         }
-         // 写入顶点总数
-         output.WriteInt32(_adjustVertexDictionary.Count);
-         foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
-            pair.Value.Serialize(this, flags, output);
-         }
-         // 输出面信息
-         int faceCount = _faceList.Count;
-         output.WriteUint8((byte)EDrStride.Uint16);
-         output.WriteInt32(3 * faceCount);
-         for (int n = 0; n < faceCount; n++ ) {
-            _faceList[n].Serialize(output);
-         }
-         // 输出骨骼列表
          output.WriteUint8((byte)_adjustBones.Count);
          foreach (FDrBone bone in _adjustBones.Values) {
             output.WriteUint8((byte)bone.AdjustId);
          }
+         //............................................................
          // 输出跟踪列表
-         _track.Serialize(output);
-         //_logger.Debug(this, "Serialize", "Serialize sub mesh success. (id={0}, name={1}, material={2}, vertex_count={3}, vertex_size={4}, face_count={5}, bone_count={6}, frame_count={7})",
-            //_adjustId, _name, _materialName, _adjustVertexDictionary.Count, index, _faceList.Count, _adjustBones.Count, _track.FrameList.Count);
+         if (_track.IsEmpty()) {
+            output.WriteBool(true);
+            _track.Serialize(output);
+         } else {
+            output.WriteBool(false);
+         }
       }
    }
 }

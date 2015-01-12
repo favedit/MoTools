@@ -309,15 +309,23 @@ namespace MO.Content3d.Resource.Model
       // @param output 输出流
       //============================================================
       public override void Serialize(IOutput output) {
-         //output.WriteInt32(CodeNumber);
-         //output.WriteInt32(0);
          output.WriteString(Code);
          // 输出网格
          _mesh.Serialize(output);
          // 输出骨骼
-         //_skeleton.Serialize(output);
+         if (!_skeleton.IsEmpty()) {
+            output.WriteBool(true);
+            _skeleton.Serialize(output);
+         } else {
+            output.WriteBool(false);
+         }
          // 输出动画
-         //_animation.Serialize(output);
+         if (!_animation.IsEmpty()) {
+            output.WriteBool(true);
+            _animation.Serialize(output);
+         } else {
+            output.WriteBool(false);
+         }
       }
 
       //============================================================

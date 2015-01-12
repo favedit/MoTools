@@ -48,6 +48,11 @@ namespace MO.Content3d.Resource.Model.Animation
       }
 
       //============================================================
+      public bool IsEmpty(){
+         return _frameList.IsEmpty;
+      }
+
+      //============================================================
       // <T>获得或设置骨骼缩放。</T>
       //============================================================
       public int OptionBoneScale {
