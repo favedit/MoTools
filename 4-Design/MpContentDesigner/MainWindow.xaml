@@ -1,0 +1,90 @@
+﻿<Window x:Class="MpContentDesigner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MpContentDesigner"
+        mc:Ignorable="d"
+        Title="" Height="800" Width="1200"
+        WindowStyle="None"
+        StateChanged="Window_StateChanged"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Margin="10" Source="/MpContentDesigner;component/Resources/Image/logo.png"></Image>
+            <Label Content="界面编辑工具" FontSize="16" Grid.Row="0" Grid.Column="1" Margin="1,0,0,0"></Label>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1">
+                <Button x:Name="btnMinimize" BorderThickness="0.5" Width="22" Height="22"  Click="btnMinimize_Click" Margin="4,0" ToolTip="最大化" Focusable="False">
+                    <Image Source="/MpContentDesigner;component/Resources/Image/WindowMinimize.png"/>
+                </Button>
+                <Button x:Name="btnMaximize" BorderThickness="0.5" Width="22" Height="22" Click="btnMaximize_Click" Margin="4,0" ToolTip="最小化" Focusable="False" >
+                    <Image x:Name="imgWindowState" Source="/MpContentDesigner;component/Resources/Image/WindowMaximize.png"/>
+                </Button>
+                <Button x:Name="btnClose" BorderThickness="0.5" Width="22" Height="22" Click="btnClose_Click" Margin="4,0" ToolTip="关闭" Focusable="False" >
+                    <Image Source="/MpContentDesigner;component/Resources/Image/Close.png"/>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1">
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
+                    <Button x:Name="btRefresh" Content="刷新" Width="50" Height="22" Margin="2" Focusable="False"/>
+                    <Button x:Name="btSave" Content="保存" Width="50" Height="22" Margin="2" Focusable="False"/>
+                    <Button x:Name="btUndo" Content="撤销" Width="50" Height="22" Margin="2" Focusable="False"/>
+                    <Button x:Name="btRedo" Content="重做" Width="50" Height="22" Margin="2" Focusable="False"/>
+                    <Border Margin="5,5,5,5" BorderThickness="1,0,0,0" BorderBrush="Black"/>
+                    <Button x:Name="btList" Content="列表" VerticalContentAlignment="Center" Width="80" Height="22" Margin="2" Click="btList_Click" Focusable="True"/>
+                    <Button x:Name="btDesign" Content="设计" VerticalContentAlignment="Center" Width="80" Height="22" Margin="2" Click="btDesign_Click"  Focusable="True"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Gray"></Border>
+        
+        <Grid  Grid.Row="2">
+            <TabControl x:Name="tcFormDesignerContainer" Visibility="Collapsed">
+            </TabControl>
+
+            <UserControl  x:Name="ucFormList" Margin="5">
+                <UserControl.Resources>
+                    <Style x:Key="itemstyle" TargetType="{x:Type ListViewItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
+                    </Style>
+                </UserControl.Resources>
+                <ListView  ItemsSource="{Binding}" ItemContainerStyle="{StaticResource itemstyle}" Width="{Binding Path=ActualWidth,ElementName=ucFormList}"  HorizontalAlignment="Left" x:Name="listXml" VerticalAlignment="Top">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="类型" Width="200" DisplayMemberBinding="{Binding XPath=@type}" />
+                                <GridViewColumn Header="名字" Width="200" DisplayMemberBinding="{Binding XPath=@name}" />
+                                <GridViewColumn Header="标签" Width="200" DisplayMemberBinding="{Binding XPath=@label}" />
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </UserControl>
+
+        </Grid>
+        
+        <Border Grid.Row="3" BorderThickness="0,1,0,0" BorderBrush="Gray" Background="Red"></Border>
+        
+        <Grid Grid.Row="4">
+            <Label Content="运行信息"></Label>
+        </Grid>
+    </Grid>
+</Window>
