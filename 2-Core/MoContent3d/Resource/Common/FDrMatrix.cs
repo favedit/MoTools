@@ -11,7 +11,10 @@ namespace MO.Content3d.Resource.Common
       // 移动信息
       protected SFloatPoint3 _translation = new SFloatPoint3();
 
-      // 缩放信息
+      // 四元数旋转信息
+      protected SFloatQuaternion _quaternion = new SFloatQuaternion();
+
+      // 欧拉角旋转信息
       protected SFloatVector3 _euler = new SFloatVector3();
 
       // 缩放信息
@@ -72,6 +75,10 @@ namespace MO.Content3d.Resource.Common
          _translation.X = config.GetFloat("tx");
          _translation.Y = config.GetFloat("ty");
          _translation.Z = config.GetFloat("tz");
+         _quaternion.X = config.GetFloat("qx", 0.0f);
+         _quaternion.Y = config.GetFloat("qy", 0.0f);
+         _quaternion.Z = config.GetFloat("qz", 0.0f);
+         _quaternion.W = config.GetFloat("qw", 1.0f);
          _euler.X = config.GetFloat("rx") * RFloat.DegreeRate;
          _euler.Y = config.GetFloat("ry") * RFloat.DegreeRate;
          _euler.Z = config.GetFloat("rz") * RFloat.DegreeRate;
@@ -110,6 +117,13 @@ namespace MO.Content3d.Resource.Common
       public void Serialize(IOutput output) {
          _translation.Serialize(output);
          _euler.Serialize(output);
+         _scale.Serialize(output);
+      }
+
+      //============================================================
+      public void SerializeQuaternion(IOutput output) {
+         _translation.Serialize(output);
+         _quaternion.Serialize(output);
          _scale.Serialize(output);
       }
    }

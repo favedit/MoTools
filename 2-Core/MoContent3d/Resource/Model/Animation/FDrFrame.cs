@@ -125,7 +125,7 @@ namespace MO.Content3d.Resource.Model.Animation
       //============================================================
       public void Serialize(IOutput output) {
          output.WriteUint16((ushort)_tick);
-         _worldMatrix.Serialize(output);
+         _worldMatrix.SerializeQuaternion(output);
       }
    }
 }
