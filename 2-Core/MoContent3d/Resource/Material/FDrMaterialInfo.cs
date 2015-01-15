@@ -909,19 +909,19 @@ namespace MO.Content3d.Resource.Material
          output.WriteString(_effectName);
          output.WriteString(_transformName);
          // 存储设置
-         output.WriteInt8((sbyte)_optionLight);
-         output.WriteInt8((sbyte)_optionMerge);
-         output.WriteInt8((sbyte)_optionSort);
+         output.WriteBool(EDrFlag.ToBoolean(_optionLight));
+         output.WriteBool(EDrFlag.ToBoolean(_optionMerge));
+         output.WriteBool(EDrFlag.ToBoolean(_optionSort));
          output.WriteInt32(_sortLevel);
-         output.WriteInt8((sbyte)_optionAlpha);
-         output.WriteInt8((sbyte)_optionDepth);
+         output.WriteBool(EDrFlag.ToBoolean(_optionAlpha));
+         output.WriteBool(EDrFlag.ToBoolean(_optionDepth));
          output.WriteString(_optionCompare);
-         output.WriteInt8((sbyte)_optionDouble);
-         output.WriteInt8((sbyte)_optionShadow);
-         output.WriteInt8((sbyte)_optionShadowSelf);
-         output.WriteInt8((sbyte)_optionDynamic);
-         output.WriteInt8((sbyte)_optionTransmittance);
-         output.WriteInt8((sbyte)_optionOpacity);
+         output.WriteBool(EDrFlag.ToBoolean(_optionDouble));
+         output.WriteBool(EDrFlag.ToBoolean(_optionShadow));
+         output.WriteBool(EDrFlag.ToBoolean(_optionShadowSelf));
+         output.WriteBool(EDrFlag.ToBoolean(_optionDynamic));
+         output.WriteBool(EDrFlag.ToBoolean(_optionTransmittance));
+         output.WriteBool(EDrFlag.ToBoolean(_optionOpacity));
          // 存储纹理
          output.WriteFloat(_coordRateWidth);
          output.WriteFloat(_coordRateHeight);
