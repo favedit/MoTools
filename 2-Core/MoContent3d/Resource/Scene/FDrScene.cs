@@ -361,34 +361,6 @@ namespace MO.Content3d.Resource.Scene
          // 释放资源
          Dispose();
          _logger.Debug(this, "Export", "Export model success. (file_name={0})", exportFileName);
-         //// 打开资源
-         //Open();
-         ////............................................................
-         //string exportDeflateDirectory = RContent3dManager.ContentConsole.ExportDeflateDirectory + "\\p3.sc";
-         //string exportLzmaDirectory = RContent3dManager.ContentConsole.ExportLzmaDirectory + "\\p3.sc";
-         //string code = Code;
-         //if (_techniqueName != "config") {
-         //   code = Code + "." + _techniqueName;
-         //}
-         ////............................................................
-         //// 序列化数据
-         //FByteStream stream = new FByteStream();
-         //Serialize(stream);
-         ////............................................................
-         //// 保存Deflate数据
-         //using (FRsCompressFile file = new FRsCompressFile(ERsCompress.Deflate, stream, RResourceManager.CompressBlockSplit)) {
-         //   byte[] data = file.CompressBytes();
-         //   RFile.WriteAllBytes(exportDeflateDirectory + "/sc_" + code + ".swf", data);
-         //}
-         ////............................................................
-         //// 保存LZMA数据
-         //using (FRsCompressFile file = new FRsCompressFile(ERsCompress.Lzma, stream, RResourceManager.CompressBlockSplit)) {
-         //   byte[] data = file.CompressBytes();
-         //   RFile.WriteAllBytes(exportLzmaDirectory + "/sc_" + code + ".swf", data);
-         //}
-         ////............................................................
-         //// 释放资源
-         //Dispose();
       }
 
       //============================================================

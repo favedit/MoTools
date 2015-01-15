@@ -907,66 +907,66 @@ namespace MO.Content3d.Resource.Material
          }
          // 存储属性
          output.WriteString(_effectName);
-         //output.WriteString(_transformName);
+         output.WriteString(_transformName);
          // 存储设置
-         //output.WriteInt8((sbyte)_optionLight);
-         //output.WriteInt8((sbyte)_optionMerge);
-         //output.WriteInt8((sbyte)_optionSort);
-         //output.WriteInt32(_sortLevel);
-         //output.WriteInt8((sbyte)_optionAlpha);
-         //output.WriteInt8((sbyte)_optionDepth);
-         //output.WriteString(_optionCompare);
-         //output.WriteInt8((sbyte)_optionDouble);
-         //output.WriteInt8((sbyte)_optionShadow);
-         //output.WriteInt8((sbyte)_optionShadowSelf);
-         //output.WriteInt8((sbyte)_optionDynamic);
-         //output.WriteInt8((sbyte)_optionTransmittance);
-         //output.WriteInt8((sbyte)_optionOpacity);
-         //// 存储纹理
-         //output.WriteFloat(_coordRateWidth);
-         //output.WriteFloat(_coordRateHeight);
-         //// 存储颜色
-         //output.WriteFloat(_colorMin);
-         //output.WriteFloat(_colorMax);
-         //output.WriteFloat(_colorRate);
-         //output.WriteFloat(_colorMerge);
-         //// 存储透明
-         //output.WriteFloat(_alphaBase);
-         //output.WriteFloat(_alphaRate);
-         //output.WriteFloat(_alphaLevel);
-         //output.WriteFloat(_alphaMerge);
-         //// 存储属性
-         //_ambientColor.Serialize(output);
-         //output.WriteFloat(_ambientShadow);
-         //_diffuseColor.Serialize(output);
-         //output.WriteFloat(_diffuseShadow);
-         //_diffuseViewColor.Serialize(output);
-         //output.WriteFloat(_diffuseViewShadow);
-         //_specularColor.Serialize(output);
-         //output.WriteFloat(_specularBase);
-         //output.WriteFloat(_specularRate);
-         //output.WriteFloat(_specularAverage);
-         //output.WriteFloat(_specularShadow);
-         //_specularViewColor.Serialize(output);
-         //output.WriteFloat(_specularViewBase);
-         //output.WriteFloat(_specularViewRate);
-         //output.WriteFloat(_specularViewAverage);
-         //output.WriteFloat(_specularViewShadow);
-         //// 存储反射
-         //_reflectColor.Serialize(output);
-         //output.WriteFloat(_reflectMerge);
-         //output.WriteFloat(_reflectShadow);
-         //// 存储折射
-         //_refractFrontColor.Serialize(output);
-         //_refractBackColor.Serialize(output);
-         //// 存储不透明度
-         //_opacityColorColor.Serialize(output);
-         //output.WriteFloat(_opacityRate);
-         //output.WriteFloat(_opacityAlpha);
-         //output.WriteFloat(_opacityDepth);
-         //output.WriteFloat(_opacityTransmittance);
-         //// 存储自发光
-         //_emissiveColor.Serialize(output);
+         output.WriteInt8((sbyte)_optionLight);
+         output.WriteInt8((sbyte)_optionMerge);
+         output.WriteInt8((sbyte)_optionSort);
+         output.WriteInt32(_sortLevel);
+         output.WriteInt8((sbyte)_optionAlpha);
+         output.WriteInt8((sbyte)_optionDepth);
+         output.WriteString(_optionCompare);
+         output.WriteInt8((sbyte)_optionDouble);
+         output.WriteInt8((sbyte)_optionShadow);
+         output.WriteInt8((sbyte)_optionShadowSelf);
+         output.WriteInt8((sbyte)_optionDynamic);
+         output.WriteInt8((sbyte)_optionTransmittance);
+         output.WriteInt8((sbyte)_optionOpacity);
+         // 存储纹理
+         output.WriteFloat(_coordRateWidth);
+         output.WriteFloat(_coordRateHeight);
+         // 存储颜色
+         output.WriteFloat(_colorMin);
+         output.WriteFloat(_colorMax);
+         output.WriteFloat(_colorRate);
+         output.WriteFloat(_colorMerge);
+         // 存储透明
+         output.WriteFloat(_alphaBase);
+         output.WriteFloat(_alphaRate);
+         output.WriteFloat(_alphaLevel);
+         output.WriteFloat(_alphaMerge);
+         // 存储属性
+         _ambientColor.Serialize(output);
+         output.WriteFloat(_ambientShadow);
+         _diffuseColor.Serialize(output);
+         output.WriteFloat(_diffuseShadow);
+         _diffuseViewColor.Serialize(output);
+         output.WriteFloat(_diffuseViewShadow);
+         _specularColor.Serialize(output);
+         output.WriteFloat(_specularBase);
+         output.WriteFloat(_specularRate);
+         output.WriteFloat(_specularAverage);
+         output.WriteFloat(_specularShadow);
+         _specularViewColor.Serialize(output);
+         output.WriteFloat(_specularViewBase);
+         output.WriteFloat(_specularViewRate);
+         output.WriteFloat(_specularViewAverage);
+         output.WriteFloat(_specularViewShadow);
+         // 存储反射
+         _reflectColor.Serialize(output);
+         output.WriteFloat(_reflectMerge);
+         output.WriteFloat(_reflectShadow);
+         // 存储折射
+         _refractFrontColor.Serialize(output);
+         _refractBackColor.Serialize(output);
+         // 存储不透明度
+         _opacityColorColor.Serialize(output);
+         output.WriteFloat(_opacityRate);
+         output.WriteFloat(_opacityAlpha);
+         output.WriteFloat(_opacityDepth);
+         output.WriteFloat(_opacityTransmittance);
+         // 存储自发光
+         _emissiveColor.Serialize(output);
       }
 
       //============================================================

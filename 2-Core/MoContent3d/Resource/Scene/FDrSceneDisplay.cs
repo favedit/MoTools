@@ -233,17 +233,17 @@ namespace MO.Content3d.Resource.Scene
          //_matrix.SerializeData(output);
          _matrix.Serialize(output);
          // 存储动画集合
-         output.WriteInt32(_movies.Count);
+         output.WriteUint16((ushort)_movies.Count);
          foreach (FDrSceneMovie movie in _movies) {
             movie.Serialize(output);
          }
          // 存储材质集合
-         output.WriteInt32(_materials.Count);
+         output.WriteUint16((ushort)_materials.Count);
          foreach(FDrSceneMaterial material in _materials) {
             material.Serialize(output);
          }
          // 存储渲染集合
-         output.WriteInt32(_renderables.Count);
+         output.WriteUint16((ushort)_renderables.Count);
          foreach(FDrSceneRenderable renderable in _renderables) {
             renderable.Serialize(output);
          }

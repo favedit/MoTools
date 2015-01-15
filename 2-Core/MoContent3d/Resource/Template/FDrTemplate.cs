@@ -355,8 +355,6 @@ namespace MO.Content3d.Resource.Template
 
       //============================================================
       public override void Serialize(IOutput output) {
-         //output.WriteInt32(CodeNumber);
-         //output.WriteInt32(0);
          output.WriteString(Code);
          // 存储属性
          //output.WriteInt8((sbyte)_optionLoaded);

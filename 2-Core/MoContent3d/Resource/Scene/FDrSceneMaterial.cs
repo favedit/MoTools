@@ -381,7 +381,7 @@ namespace MO.Content3d.Resource.Scene
       public void Serialize(IOutput output) {
          // 存储属性
          output.WriteString(Code);
-         output.WriteWideString(_label);
+         output.WriteString(_label);
          //output.WriteUTFString(_label);
          // 存储设置
          SerializeInfo(output);
