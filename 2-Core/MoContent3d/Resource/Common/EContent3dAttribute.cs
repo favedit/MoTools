@@ -31,5 +31,8 @@
 
       // 骨骼权重
       public const string BoneWeight = "bone_weight";
+
+      // 32位索引
+      public const string Index32 = "index32";
    }
 }

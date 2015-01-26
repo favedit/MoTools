@@ -350,6 +350,18 @@ namespace MO.Content3d.Resource.Model.Mesh
       }
 
       //============================================================
+      public void SerializeBoneIndex2(FDrGeometry submesh, IOutput output) {
+         int count = _weights.Count;
+         for (int n = 0; n < _maxWeightCount; n++) {
+            int value = 0;
+            if (n < count) {
+               value = submesh.FindAdjustBoneIndex(_weights[n].BoneId);
+            }
+            output.WriteInt16((short)value);
+         }
+      }
+
+      //============================================================
       public void SerializeBoneWeight(FDrGeometry submesh, IOutput output) {
          int count = _weights.Count;
          for (int n = 0; n < _maxWeightCount; n++) {
@@ -359,6 +371,18 @@ namespace MO.Content3d.Resource.Model.Mesh
             }
             output.WriteUint8((byte)(value * 255));
             //output.WriteFloat(value);
+         }
+      }
+
+      //============================================================
+      public void SerializeBoneWeight2(FDrGeometry submesh, IOutput output) {
+         int count = _weights.Count;
+         for (int n = 0; n < _maxWeightCount; n++) {
+            float value = 0;
+            if (n < count) {
+               value = _weights[n].Weight;
+            }
+            output.WriteFloat(value);
          }
       }
    }

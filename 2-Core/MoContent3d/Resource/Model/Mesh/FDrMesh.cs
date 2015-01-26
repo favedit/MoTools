@@ -179,6 +179,14 @@ namespace MO.Content3d.Resource.Model.Mesh
       }
 
       //============================================================
+      public void Serialize2(IOutput output) {
+         output.WriteUint16((ushort)_geometryDictionary.Count);
+         foreach (FDrGeometry geometry in _geometryDictionary.Values) {
+            geometry.Serialize2(output);
+         }
+      }
+
+      //============================================================
       // <T>释放内容。</T>
       //============================================================
       public void Dispose() {

@@ -329,6 +329,17 @@ namespace MO.Content3d.Resource.Model
       }
 
       //============================================================
+      // <T>序列化数据内容到输出流。</T>
+      //
+      // @param output 输出流
+      //============================================================
+      public void Serialize2(IOutput output) {
+         output.WriteString(Code);
+         // 输出网格
+          _mesh.Serialize2(output);
+      }
+
+      //============================================================
       // <T>根据指定模式导出数据。</T>
       //
       // @param modeCd 导出模式
@@ -338,11 +349,17 @@ namespace MO.Content3d.Resource.Model
          Open();
          //............................................................
          //string exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + CodeNumber + ".ser";
-         string exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".ser";
          //............................................................
-         // 序列化数据
+         // 序列化数据1
+         string exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".ser";
          FByteFile file = new FByteFile();
          Serialize(file);
+         file.SaveFile(exportFileName);
+         //............................................................
+         // 序列化数据2
+         exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".msd";
+         file = new FByteFile();
+         Serialize2(file);
          file.SaveFile(exportFileName);
          //............................................................
          // 释放资源

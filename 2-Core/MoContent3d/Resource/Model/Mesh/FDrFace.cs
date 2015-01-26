@@ -222,5 +222,12 @@ namespace MO.Content3d.Resource.Model.Mesh {
          output.WriteUint16((ushort)_adjustVertexIndex.V2);
          output.WriteUint16((ushort)_adjustVertexIndex.V3);
       }
+
+      //============================================================
+      public void Serialize2(IOutput output) {
+         output.WriteInt32(_adjustVertexIndex.V1);
+         output.WriteInt32(_adjustVertexIndex.V2);
+         output.WriteInt32(_adjustVertexIndex.V3);
+      }
    }
 }

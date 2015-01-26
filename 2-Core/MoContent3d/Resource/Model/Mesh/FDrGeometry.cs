@@ -1365,5 +1365,126 @@ namespace MO.Content3d.Resource.Model.Mesh
             output.WriteBool(false);
          }
       }
+
+      //============================================================
+      // <T>序列化数据到输出流。</T>
+      //============================================================
+      public void Serialize2(IOutput output) {
+         //............................................................
+         // 输出顶点信息
+         if (_adjustVertexDictionary.Count >= 65536) {
+            _logger.Debug(this, "Serialize", "Too many vectex. (name={0}, vertex_count={1})", _name, _adjustVertexDictionary.Count);
+            throw new FFatalException("Too many vectex. (name={0}, vertex_count={1})", _name, _adjustVertexDictionary.Count);
+         }
+         //output.WriteInt32(_adjustVertexDictionary.Count);
+         //............................................................
+         // 计算标志
+         int streamCount = 0;
+         using (FByteStream stream = new FByteStream()) {
+            if (!_adjustVertexDictionary.IsEmpty()) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.Position);
+               //stream.WriteUint8((byte)ERenderVertexFormat.Float3);
+               stream.WriteInt16((byte)sizeof(float) * 3);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.Position.Serialize(stream);
+               }
+            }
+            if (!_colorList.IsEmpty) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.Color);
+               //stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
+               stream.WriteInt16((byte)sizeof(float) * 4);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.Color.Serialize(stream);
+               }
+            }
+            if (!_coordList.IsEmpty) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.Coord);
+               //stream.WriteUint8((byte)ERenderVertexFormat.Float2);
+               stream.WriteInt16(sizeof(float) * 2);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.Coord.Serialize(stream);
+               }
+            }
+            if (EDrFlag.Yes == _optionLight) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.CoordLight);
+               //stream.WriteUint8((byte)ERenderVertexFormat.Float2);
+               stream.WriteInt16((byte)sizeof(float) * 2);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.LightCoord.Serialize(stream);
+               }
+            }
+            if (!_normalList.IsEmpty) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.Normal);
+               //stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
+               stream.WriteInt16(sizeof(float) * 3);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.Normal.Serialize(stream);
+               }
+            }
+            if ((_optionNormalFull == EDrFlag.Yes) && !_binormalList.IsEmpty) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.Binormal);
+               //stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
+               stream.WriteInt16(sizeof(float) * 3);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.Binormal.Serialize(stream);
+               }
+            }
+            if ((_optionNormalFull == EDrFlag.Yes) && !_tangentList.IsEmpty) {
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.Tangent);
+               //stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
+               stream.WriteInt16(sizeof(float) * 3);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.Tangent.Serialize(stream);
+               }
+            }
+            if (_weightMaxCount > 0) {
+               // 写出骨头索引
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.BoneIndex);
+               //stream.WriteUint8((byte)ERenderVertexFormat.Byte4);
+               stream.WriteInt16(sizeof(short) * 3);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.SerializeBoneIndex2(this, stream);
+               }
+               // 写出骨头权重
+               streamCount++;
+               stream.WriteString(EContent3dAttribute.BoneWeight);
+               //stream.WriteUint8((byte)ERenderVertexFormat.ByteNormal4);
+               stream.WriteInt16(sizeof(float) * 3);
+               stream.WriteInt32(_adjustVertexDictionary.Count);
+               foreach (INamePair<FDrVertex> pair in _adjustVertexDictionary) {
+                  pair.Value.SerializeBoneWeight2(this, stream);
+               }
+            }
+            //............................................................
+            // 输出索引信息
+            streamCount++;
+            int faceCount = _faceList.Count;
+            stream.WriteString(EContent3dAttribute.Index32);
+            stream.WriteInt16(sizeof(int) * 3);
+            stream.WriteInt32(faceCount);
+            for (int n = 0; n < faceCount; n++) {
+               _faceList[n].Serialize2(stream);
+            }
+            // 写入流信息
+            output.WriteInt16((short)streamCount);
+            output.WriteBytes(stream.Memory, 0, stream.Length);
+         }
+      }
    }
 }
