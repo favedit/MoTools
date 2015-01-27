@@ -99,6 +99,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\EDrData.cs" />
     <Compile Include="Common\EDrFlag.cs" />
     <Compile Include="Resource\Common\EContent3dSampler.cs" />
     <Compile Include="Resource\Common\EDrStride.cs" />
