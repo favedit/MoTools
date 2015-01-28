@@ -15,6 +15,7 @@ using MO.Content3d.Resource.Model.Mesh;
 using MO.Content3d.Resource.Texture;
 using MO.Content3d.Util.Light;
 using System;
+using MO.Content3d.Resource.Theme;
 
 namespace MO.Content3d.Resource.Template
 {
@@ -398,6 +399,57 @@ namespace MO.Content3d.Resource.Template
       }
 
       //============================================================
+      public void ExportConfig(FXmlNode xconfig) {
+         xconfig.Set("code", Code);
+         // 存储属性
+         //output.WriteInt8((sbyte)_optionLoaded);
+         //output.WriteInt8((sbyte)_optionSelect);
+         //output.WriteInt8((sbyte)_optionGround);
+         //output.WriteInt8((sbyte)_optionMergeVertex);
+         //output.WriteInt8((sbyte)_optionMergeMaterial);
+         //output.WriteInt8((sbyte)_optionLightMap);
+         //............................................................
+         // 统计材质次数
+         FDictionary<FDrModelMaterial> materials = new FDictionary<FDrModelMaterial>();
+         foreach (FDrTemplateRenderable renderable in  _renderables){
+            FDrModel model = RContent3dManager.ModelConsole.Find(renderable.ModelCode);
+            model.Open();
+            FDrGeometry geometry = model.Mesh.Find(renderable.GeometryName);
+            renderable.ModelMaterial = geometry.ModelMaterial;
+            materials.Set(renderable.MaterialCode, geometry.ModelMaterial);
+         }
+         FXmlNode xthemes = xconfig.CreateNode("ThemeCollection");
+         foreach (INamePair<FDrTheme> themePair in RContent3dManager.ThemeConsole.Themes) {
+            FDrTheme theme = themePair.Value;
+            FXmlNode xtheme = xthemes.CreateNode("Theme");
+            theme.ExportConfig(xtheme);
+            FXmlNode xmaterials = xtheme.CreateNode("MaterialCollection");
+            foreach (INamePair<FDrModelMaterial> materialPair in materials) {
+               string materialCode = materialPair.Name;
+               FDrModelMaterial modelMaterial = materialPair.Value;
+               FXmlNode xmaterial = xmaterials.CreateNode("Material");
+               FDrMaterial material = RContent3dManager.MaterialConsole.Find(theme.Code, materialCode);
+               if (modelMaterial != null) {
+                  material.AmbientColor.Assign(modelMaterial.Ambient);
+                  material.DiffuseColor.Assign(modelMaterial.Diffuse);
+                  material.SpecularColor.Assign(modelMaterial.Specular);
+                  material.SpecularRate = modelMaterial.Specular.A;
+               }
+               material.ExportConfig(xmaterial);
+               FDrMaterialGroup materialGroup = RContent3dManager.MaterialConsole.FindGroup(materialCode);
+               materialGroup.ExportConfig(xmaterial);
+            }
+         }
+         //............................................................
+         // 存储渲染列表
+         FXmlNode xdisplays = xconfig.CreateNode("DisplayCollection");
+         foreach (FDrTemplateRenderable renderable in _renderables) {
+            FXmlNode xdisplay = xdisplays.CreateNode("Display");
+            renderable.ExportConfig(xdisplay);
+         }
+      }
+
+      //============================================================
       // <T>序列化数据。</T>
       //============================================================
       public void Import() {
@@ -454,12 +506,18 @@ namespace MO.Content3d.Resource.Template
          Open();
          //............................................................
          //string exportFileName = RContent3dManager.TemplateConsole.ExportDirectory + "\\" + CodeNumber + ".ser";
-         string exportFileName = RContent3dManager.TemplateConsole.ExportDirectory + "\\" + Code + ".ser";
          //............................................................
          // 序列化数据
+         string exportFileName = RContent3dManager.TemplateConsole.ExportDirectory + "\\" + Code + ".ser";
          FByteFile file = new FByteFile();
          Serialize(file);
          file.SaveFile(exportFileName);
+         //............................................................
+         // 序列化数据
+         exportFileName = RContent3dManager.TemplateConsole.ExportDirectory + "\\" + Code + ".xml";
+         FXmlDocument xdoc = new FXmlDocument();
+         ExportConfig(xdoc.Root.CreateNode("Template"));
+         xdoc.SaveFile(exportFileName);
          //............................................................
          // 释放资源
          Dispose();

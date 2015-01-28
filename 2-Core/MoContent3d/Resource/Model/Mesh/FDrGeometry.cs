@@ -339,6 +339,13 @@ namespace MO.Content3d.Resource.Model.Mesh
       }
 
       //============================================================
+      // <T>获得或设置材质。</T>
+      //============================================================
+      public FDrModelMaterial ModelMaterial {
+         get { return _modelMaterial; }
+      }
+
+      //============================================================
       // <T>获得局部矩阵。</T>
       //============================================================
       public FDrMatrix LocalMatrix {
@@ -1385,7 +1392,7 @@ namespace MO.Content3d.Resource.Model.Mesh
             if (!_adjustVertexDictionary.IsEmpty()) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.Position);
-               stream.WriteInt8((sbyte)EDrData.Float);
+               stream.WriteInt8((sbyte)EDrData.Float32);
                stream.WriteInt8(3);
                stream.WriteInt16((byte)sizeof(float) * 3);
                stream.WriteInt32(_adjustVertexDictionary.Count);
@@ -1396,7 +1403,7 @@ namespace MO.Content3d.Resource.Model.Mesh
             if (!_colorList.IsEmpty) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.Color);
-               stream.WriteInt8((sbyte)EDrData.Float);
+               stream.WriteInt8((sbyte)EDrData.Float32);
                stream.WriteInt8(4);
                stream.WriteInt16((byte)sizeof(float) * 4);
                stream.WriteInt32(_adjustVertexDictionary.Count);
@@ -1407,7 +1414,7 @@ namespace MO.Content3d.Resource.Model.Mesh
             if (!_coordList.IsEmpty) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.Coord);
-               stream.WriteInt8((sbyte)EDrData.Float);
+               stream.WriteInt8((sbyte)EDrData.Float32);
                stream.WriteInt8(2);
                stream.WriteInt16(sizeof(float) * 2);
                stream.WriteInt32(_adjustVertexDictionary.Count);
@@ -1418,7 +1425,7 @@ namespace MO.Content3d.Resource.Model.Mesh
             if (EDrFlag.Yes == _optionLight) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.CoordLight);
-               stream.WriteInt8((sbyte)EDrData.Float);
+               stream.WriteInt8((sbyte)EDrData.Float32);
                stream.WriteInt8(2);
                stream.WriteInt16((byte)sizeof(float) * 2);
                stream.WriteInt32(_adjustVertexDictionary.Count);
@@ -1429,7 +1436,7 @@ namespace MO.Content3d.Resource.Model.Mesh
             if (!_normalList.IsEmpty) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.Normal);
-               stream.WriteInt8((sbyte)EDrData.Float);
+               stream.WriteInt8((sbyte)EDrData.Float32);
                stream.WriteInt8(3);
                stream.WriteInt16(sizeof(float) * 3);
                stream.WriteInt32(_adjustVertexDictionary.Count);
@@ -1440,7 +1447,7 @@ namespace MO.Content3d.Resource.Model.Mesh
             if ((_optionNormalFull == EDrFlag.Yes) && !_binormalList.IsEmpty) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.Binormal);
-               stream.WriteInt8((sbyte)EDrData.Float);
+               stream.WriteInt8((sbyte)EDrData.Float32);
                stream.WriteInt8(3);
                stream.WriteInt16(sizeof(float) * 3);
                stream.WriteInt32(_adjustVertexDictionary.Count);
@@ -1451,7 +1458,7 @@ namespace MO.Content3d.Resource.Model.Mesh
             if ((_optionNormalFull == EDrFlag.Yes) && !_tangentList.IsEmpty) {
                streamCount++;
                stream.WriteString(EContent3dAttribute.Tangent);
-               stream.WriteInt8((sbyte)EDrData.Float);
+               stream.WriteInt8((sbyte)EDrData.Float32);
                stream.WriteInt8(3);
                stream.WriteInt16(sizeof(float) * 3);
                stream.WriteInt32(_adjustVertexDictionary.Count);
@@ -1473,7 +1480,7 @@ namespace MO.Content3d.Resource.Model.Mesh
                // 写出骨头权重
                streamCount++;
                stream.WriteString(EContent3dAttribute.BoneWeight);
-               stream.WriteInt8((sbyte)EDrData.Float);
+               stream.WriteInt8((sbyte)EDrData.Float32);
                stream.WriteInt8(4);
                stream.WriteInt16(sizeof(float) * 4);
                stream.WriteInt32(_adjustVertexDictionary.Count);

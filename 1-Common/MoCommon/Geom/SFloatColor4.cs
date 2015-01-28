@@ -238,6 +238,13 @@ namespace MO.Common.Geom
       }
 
       //============================================================
+      public void SaveConfigRgb(FXmlNode config) {
+         config.Set("r", R);
+         config.Set("g", G);
+         config.Set("b", B);
+      }
+
+      //============================================================
       public void SaveConfigPower(FXmlNode config) {
          config.Set("r", R);
          config.Set("g", G);

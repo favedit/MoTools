@@ -503,6 +503,18 @@ namespace MO.Content3d.Resource.Material
       }
 
       //============================================================
+      public void ExportConfig(FXmlNode xconfig) {
+         xconfig.Set("code", Code);
+         // 存储贴图
+         if (!_textures.IsEmpty) {
+            FXmlNode xtextures = xconfig.CreateNode("TextureCollection");
+            foreach (FDrMaterialTexture texture in _textures) {
+               texture.ExportConfig(xtextures.CreateNode("Texture"));
+            }
+         }
+      }
+
+      //============================================================
       // <T>导出处理。</T>
       //============================================================
       public void Export() {

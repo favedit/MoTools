@@ -73,6 +73,9 @@ namespace MO.Content3d.Resource.Template
       // 材质对象
       protected FDrMaterialGroup _material;
 
+      // 模型材质对象
+      protected FDrModelMaterial _modelMaterial;
+
       // 原始矩阵
       protected SFloatMatrix _originMatrix = new SFloatMatrix();
 
@@ -213,6 +216,12 @@ namespace MO.Content3d.Resource.Template
       }
 
       //============================================================
+      public FDrModelMaterial ModelMaterial {
+         get { return _modelMaterial; }
+         set { _modelMaterial = value; }
+      }
+
+      //============================================================
       public string LightMapName {
          get { return _lightMapName; }
          set { _lightMapName = value; }
@@ -323,6 +332,18 @@ namespace MO.Content3d.Resource.Template
          output.WriteInt8((sbyte)_optionGround);
          // 存储矩阵
          _matrix.Serialize(output);
+      }
+
+      //============================================================
+      public void ExportConfig(FXmlNode xconfig) {
+         // 设置属性
+         xconfig.Set("model_code", _model.Code);
+         xconfig.Set("mesh_code", _geometryName);
+         _matrix.SaveSimpleConfig(xconfig.CreateNode("Matrix"));
+         // 设置材质
+         FXmlNode xmaterials = xconfig.CreateNode("MaterialCollection");
+         FXmlNode xmaterial = xmaterials.CreateNode("Material");
+         xmaterial.Set("code", RDrUtil.FormatPathToCode(_materialName));
       }
 
       //============================================================

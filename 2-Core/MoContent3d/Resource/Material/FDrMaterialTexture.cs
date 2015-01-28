@@ -174,6 +174,14 @@ namespace MO.Content3d.Resource.Material
       }
 
       //============================================================
+      public void ExportConfig(FXmlNode xconfig) {
+         xconfig.Set("type", TypeName);
+         xconfig.Set("texture", RDrUtil.FormatPathToCode(_source));
+         xconfig.Set("bitmap", SourceTypeName);
+         xconfig.Set("index", _sourceIndex);
+      }
+
+      //============================================================
       // <T>序列化内部数据到输出流。</T>
       //
       // @param output 输出流

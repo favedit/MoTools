@@ -126,6 +126,11 @@ namespace MO.Content3d.Resource.Theme
       }
 
       //============================================================
+      public void ExportConfig(FXmlNode xconfig) {
+         xconfig.Set("code", Code);
+      }
+
+      //============================================================
       // <T>根据指定模式导出数据。</T>
       //
       // @param modeCd 导出模式
