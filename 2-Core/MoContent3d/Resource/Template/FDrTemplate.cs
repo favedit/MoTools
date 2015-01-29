@@ -444,7 +444,7 @@ namespace MO.Content3d.Resource.Template
          // 存储渲染列表
          FXmlNode xdisplays = xconfig.CreateNode("DisplayCollection");
          foreach (FDrTemplateRenderable renderable in _renderables) {
-            FXmlNode xdisplay = xdisplays.CreateNode("Display");
+            FXmlNode xdisplay = xdisplays.CreateNode("Sprite");
             renderable.ExportConfig(xdisplay);
          }
       }
