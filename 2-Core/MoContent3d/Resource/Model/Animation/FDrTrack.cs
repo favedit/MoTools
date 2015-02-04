@@ -225,5 +225,24 @@ namespace MO.Content3d.Resource.Model.Animation
             frame.Serialize(output);
          }
       }
+
+      //============================================================
+      public void Serialize2(IOutput output) {
+         // _logger.Debug(this, "Serialize", "Serialize track success. (bone_id={0}, frame_count={1})", _bone.AdjustId, _frameList.Count);
+         // 输出骨骼信息
+         int adjustId = 0;
+         if (null != _bone) {
+            adjustId = _bone.AdjustId;
+         }
+         output.WriteInt32(adjustId);
+         output.WriteInt32(FrameTick);
+         // 输出矩阵
+         _worldMatrix.Serialize(output);
+         // 输出所有帧信息
+         output.WriteInt32(_frameList.Count);
+         foreach (FDrFrame frame in _frameList) {
+            frame.Serialize2(output);
+         }
+      }
    }
 }

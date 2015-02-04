@@ -138,49 +138,49 @@ namespace MO.Content3d.Resource.Material
          //xcolor.Set("max", _colorMax);
          ////xcolor.Set("rate", _colorRate);
          //xcolor.Set("merge", _colorMerge);
-         //// 读取透明信息
-         //FXmlNode xalpha = xconfig.CreateNode("Alpha");
-         //xalpha.Set("base", _alphaBase);
-         //xalpha.Set("rate", _alphaRate);
+         // 读取透明信息
+         FXmlNode xalpha = xconfig.CreateNode("Alpha");
+         xalpha.Set("base", _alphaBase);
+         xalpha.Set("rate", _alphaRate);
          //xalpha.Set("level", _alphaLevel);
          //xalpha.Set("merge", _alphaMerge);
          // 存储环境光
          FXmlNode xambient = xconfig.CreateNode("Ambient");
-         _ambientColor.SaveConfigRgb(xambient);
+         _ambientColor.SaveConfigPower(xambient);
          //xambient.Set("shadow", _ambientShadow);
          // 存储散射光
          FXmlNode xdiffuse = xconfig.CreateNode("Diffuse");
-         _diffuseColor.SaveConfigRgb(xdiffuse);
+         _diffuseColor.SaveConfigPower(xdiffuse);
          //xdiffuse.Set("shadow", _diffuseShadow);
-         //// 存储视角散射光
-         //FXmlNode xdiffuseview = xconfig.CreateNode("DiffuseView");
-         //_diffuseViewColor.SaveConfigPower(xdiffuseview);
+         // 存储视角散射光
+         FXmlNode xdiffuseview = xconfig.CreateNode("DiffuseView");
+         _diffuseViewColor.SaveConfigPower(xdiffuseview);
          //xdiffuseview.Set("shadow", _diffuseViewShadow);
          //// 存储高光
          FXmlNode xspecular = xconfig.CreateNode("Specular");
-         _specularColor.SaveConfigRgb(xspecular);
+         _specularColor.SaveConfigPower(xspecular);
          //xspecular.Set("base", _specularBase);
          xspecular.Set("level", _specularRate);
          //xspecular.Set("average", _specularAverage);
          //xspecular.Set("shadow", _specularShadow);
-         //// 存储视角高光
-         //FXmlNode xspecularview = xconfig.CreateNode("SpecularView");
-         //_specularViewColor.SaveConfigPower(xspecularview);
+         // 存储视角高光
+         FXmlNode xspecularview = xconfig.CreateNode("SpecularView");
+         _specularViewColor.SaveConfigPower(xspecularview);
          //xspecularview.Set("base", _specularViewBase);
-         //xspecularview.Set("rate", _specularViewRate);
+         xspecularview.Set("level", _specularViewRate);
          //xspecularview.Set("average", _specularViewAverage);
          //xspecularview.Set("shadow", _specularViewShadow);
-         //// 存储反射
-         //FXmlNode xreflect = xconfig.CreateNode("Reflect");
-         //_reflectColor.SaveConfigPower(xreflect);
-         //xreflect.Set("merge", _reflectMerge);
+         // 存储反射
+         FXmlNode xreflect = xconfig.CreateNode("Reflect");
+         _reflectColor.SaveConfigPower(xreflect);
+         xreflect.Set("merge", _reflectMerge);
          //xreflect.Set("shadow", _reflectShadow);
-         //// 存储前折射
-         //FXmlNode xrefractFront = xconfig.CreateNode("RefractFront");
-         //_refractFrontColor.SaveConfigPower(xrefractFront);
-         //// 存储后折射
-         //FXmlNode xrefractBack = xconfig.CreateNode("RefractBack");
-         //_refractBackColor.SaveConfigPower(xrefractBack);
+         // 存储前折射
+         FXmlNode xrefractFront = xconfig.CreateNode("RefractFront");
+         _refractFrontColor.SaveConfigPower(xrefractFront);
+         // 存储后折射
+         FXmlNode xrefractBack = xconfig.CreateNode("RefractBack");
+         _refractBackColor.SaveConfigPower(xrefractBack);
          //// 存储不发光度
          //FXmlNode xopacity = xconfig.CreateNode("Opacity");
          //_opacityColorColor.SaveConfigPower(xopacity);
@@ -188,9 +188,9 @@ namespace MO.Content3d.Resource.Material
          //xopacity.Set("alpha", _opacityAlpha);
          //xopacity.Set("depth", _opacityDepth);
          //xopacity.Set("transmittance", _opacityTransmittance);
-         //// 存储自发光
-         //FXmlNode xemissive = xconfig.CreateNode("Emissive");
-         //_emissiveColor.SaveConfigPower(xemissive);
+         // 存储自发光
+         FXmlNode xemissive = xconfig.CreateNode("Emissive");
+         _emissiveColor.SaveConfigPower(xemissive);
       }
 
       //============================================================

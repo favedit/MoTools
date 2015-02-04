@@ -1504,6 +1504,20 @@ namespace MO.Content3d.Resource.Model.Mesh
             output.WriteInt16((short)streamCount);
             output.WriteBytes(stream.Memory, 0, stream.Length);
          }
+         //............................................................
+         // 输出骨骼列表
+         output.WriteInt32(_adjustBones.Count);
+         foreach (FDrBone bone in _adjustBones.Values) {
+            output.WriteInt32(bone.AdjustId);
+         }
+         //............................................................
+         // 输出跟踪列表
+         if (!_track.IsEmpty()) {
+            output.WriteBool(true);
+            _track.Serialize2(output);
+         } else {
+            output.WriteBool(false);
+         }
       }
    }
 }

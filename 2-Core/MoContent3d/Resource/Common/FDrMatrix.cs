@@ -108,6 +108,10 @@ namespace MO.Content3d.Resource.Common
          _euler.X = input.ReadFloat() * RFloat.DegreeRate;
          _euler.Y = input.ReadFloat() * RFloat.DegreeRate;
          _euler.Z = input.ReadFloat() * RFloat.DegreeRate;
+         _quaternion.X = input.ReadFloat();
+         _quaternion.Y = input.ReadFloat();
+         _quaternion.Z = input.ReadFloat();
+         _quaternion.W = input.ReadFloat();
          _scale.X = input.ReadFloat();
          _scale.Y = input.ReadFloat();
          _scale.Z = input.ReadFloat();

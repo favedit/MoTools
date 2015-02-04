@@ -127,5 +127,15 @@ namespace MO.Content3d.Resource.Model.Animation
          output.WriteUint16((ushort)_tick);
          _worldMatrix.SerializeQuaternion(output);
       }
+
+      //============================================================
+      // <T>序列化数据内容到输出流。</T>
+      //
+      // @param output 输出流
+      //============================================================
+      public void Serialize2(IOutput output) {
+         output.WriteInt32(_tick);
+         _worldMatrix.SerializeQuaternion(output);
+      }
    }
 }

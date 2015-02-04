@@ -434,6 +434,7 @@ namespace MO.Content3d.Resource.Template
                   material.DiffuseColor.Assign(modelMaterial.Diffuse);
                   material.SpecularColor.Assign(modelMaterial.Specular);
                   material.SpecularRate = modelMaterial.Specular.A;
+                  material.EmissiveColor.Assign(modelMaterial.Emissive);
                }
                material.ExportConfig(xmaterial);
                FDrMaterialGroup materialGroup = RContent3dManager.MaterialConsole.FindGroup(materialCode);
