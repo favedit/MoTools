@@ -211,6 +211,40 @@ namespace MO.Content3d.Resource.Model.Animation
       }
 
       //============================================================
+      public void Serialize2(IOutput output, FObjects<FDrTrack> tracks) {
+         // 输出设置信息
+         output.WriteInt32(_frameCount + 1);
+         output.WriteInt32(_frameTick);
+         output.WriteInt32(_frameEnd - _frameStart);
+         // 输出帧信息列表
+         //output.WriteInt16((short)_frameInfos.Count);
+         //foreach (FDrFrameInfo frame in _frameInfos) {
+         //   frame.Serialize(output);
+         //}
+         // 输出跟踪列表
+         //output.WriteInt16((short)_joiners.Count);
+         //foreach (FDrJoiner joiner in _joiners) {
+         //   joiner.Serialize(output);
+         //}
+         // 输出跟踪列表
+         int total = _tracks.Count + tracks.Count;
+         output.WriteInt32(total);
+         foreach (FDrTrack track in tracks) {
+            // 网格跟踪
+            track.Serialize2(output);
+         }
+         foreach (FDrTrack track in _tracks) {
+            // 骨骼跟踪
+            track.Serialize2(output);
+         }
+         // 输出动画列表
+         //output.WriteInt32(_movies.Count);
+         //foreach (FDrMovie movie in _movies) {
+         //movie.Serialize(output);
+         //}
+      }
+
+      //============================================================
       // <T>释放内容。</T>
       //============================================================
       public void Dispose() {

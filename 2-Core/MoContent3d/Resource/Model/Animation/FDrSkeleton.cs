@@ -79,6 +79,14 @@ namespace MO.Content3d.Resource.Model.Animation
       }
 
       //============================================================
+      public void Serialize2(IOutput output) {
+         output.WriteInt32((byte)_roots.Count);
+         foreach (FDrBone bone in _roots) {
+            bone.Serialize2(output);
+         }
+      }
+
+      //============================================================
       // <T>释放内容。</T>
       //============================================================
       public void Dispose() {

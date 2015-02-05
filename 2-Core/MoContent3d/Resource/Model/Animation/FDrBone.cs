@@ -95,5 +95,16 @@ namespace MO.Content3d.Resource.Model.Animation
             bone.Serialize(output);
          }
       }
+
+      //============================================================
+      public void Serialize2(IOutput output) {
+         // 保存编号
+         output.WriteInt32(_adjustId);
+         // 保存所有子骨头
+         output.WriteInt32(_children.Count);
+         foreach (FDrBone bone in _children) {
+            bone.Serialize2(output);
+         }
+      }
    }
 }

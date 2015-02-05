@@ -189,7 +189,7 @@ namespace MO.Content3d.Resource.Model
          FXmlNode xanimation = xconfig.CreateNode("Animation");
          _animation.SaveConfig(xanimation);
       }
-      
+
       //============================================================
       // <T>加载设置文件。</T>
       //
@@ -201,11 +201,11 @@ namespace MO.Content3d.Resource.Model
          // 加载节点信息
          foreach (FXmlNode xnode in xconfig.Nodes) {
             // 加载网格
-            if(xnode.IsName("Mesh")) {
+            if (xnode.IsName("Mesh")) {
                _mesh.LoadConfig(xnode);
             }
             // 加载动画
-            if(xnode.IsName("Animation")) {
+            if (xnode.IsName("Animation")) {
                _animation.LoadConfig(xnode);
             }
          }
@@ -239,16 +239,16 @@ namespace MO.Content3d.Resource.Model
          _exportFileName = _directoryExprot + "\\md_" + Code + ".swf";
          _exportDataFileName = _directoryExprot + ".dt\\md_" + Code + ".swf";
          // 加载设置文件
-         if(RFile.Exists(_configFileName)) {
+         if (RFile.Exists(_configFileName)) {
             LoadConfigFile(_configFileName);
          }
       }
-      
+
       //============================================================
       // <T>打开设置文件。</T>
       //============================================================
       public override void Open() {
-         if(!_opened) {
+         if (!_opened) {
             // 加载模型文件
             LoadModelConfigFile(_modelFileName);
             // 加载网格文件
@@ -269,7 +269,7 @@ namespace MO.Content3d.Resource.Model
          Open();
          // 存储设置
          FXmlDocument xdoc = new FXmlDocument();
-         FXmlNode xroot = xdoc.Root;         
+         FXmlNode xroot = xdoc.Root;
          SaveConfig(xroot.CreateNode("Model"));
          xdoc.SaveFile(_configFileName);
          _logger.Debug(this, "SaveConfig", "Save Model config success. (file_name={0})", _configFileName);
@@ -336,7 +336,38 @@ namespace MO.Content3d.Resource.Model
       public void Serialize2(IOutput output) {
          output.WriteString(Code);
          // 输出网格
-          _mesh.Serialize2(output);
+         _mesh.Serialize2(output);
+      }
+
+      //============================================================
+      // <T>序列化数据内容到输出流。</T>
+      //
+      // @param output 输出流
+      //============================================================
+      public void SerializeSkeleton(IOutput output) {
+         output.WriteString(Code);
+         // 输出骨骼
+         if (_skeleton.IsEmpty()) {
+            output.WriteInt32(0);
+         } else {
+            _skeleton.Serialize2(output);
+         }
+         // 输出网格
+         _mesh.SerializeSkin(output);
+      }
+
+      //============================================================
+      // <T>序列化数据内容到输出流。</T>
+      //
+      // @param output 输出流
+      //============================================================
+      public void SerializeAnimation(IOutput output) {
+         output.WriteString(Code);
+         // 获得所有网格跟踪
+         FObjects<FDrTrack> tracks = new FObjects<FDrTrack>();
+         _mesh.FetchTracks(tracks);
+         // 序列化数据
+         _animation.Serialize2(output, tracks);
       }
 
       //============================================================
@@ -348,8 +379,6 @@ namespace MO.Content3d.Resource.Model
          // 打开资源
          Open();
          //............................................................
-         //string exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + CodeNumber + ".ser";
-         //............................................................
          // 序列化数据1
          string exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".ser";
          FByteFile file = new FByteFile();
@@ -357,10 +386,24 @@ namespace MO.Content3d.Resource.Model
          file.SaveFile(exportFileName);
          //............................................................
          // 序列化数据2
-         exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".msd";
+         exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".msh";
          file = new FByteFile();
          Serialize2(file);
          file.SaveFile(exportFileName);
+         // 序列化骨骼
+         if (_mesh.HasSkin()) {
+            exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".skt";
+            file = new FByteFile();
+            SerializeSkeleton(file);
+            file.SaveFile(exportFileName);
+         }
+         // 序列化动画
+         if (_mesh.HasTrack() || !_animation.IsEmpty()) {
+            exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".anm";
+            file = new FByteFile();
+            SerializeAnimation(file);
+            file.SaveFile(exportFileName);
+         }
          //............................................................
          // 释放资源
          Dispose();

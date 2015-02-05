@@ -5,6 +5,7 @@ using MO.Common.Content;
 using MO.Common.IO;
 using MO.Common.Lang;
 using MO.Core;
+using MO.Content3d.Resource.Model.Animation;
 
 namespace MO.Content3d.Resource.Model.Mesh
 {
@@ -180,9 +181,66 @@ namespace MO.Content3d.Resource.Model.Mesh
 
       //============================================================
       public void Serialize2(IOutput output) {
-         output.WriteInt16((short)_geometryDictionary.Count);
+         output.WriteInt32(_geometryDictionary.Count);
          foreach (FDrGeometry geometry in _geometryDictionary.Values) {
             geometry.Serialize2(output);
+         }
+      }
+
+      //============================================================
+      // <T>获得是否含有皮肤。</T>
+      //============================================================
+      public bool HasSkin() {
+         foreach (FDrGeometry geometry in _geometryDictionary.Values) {
+            if (geometry.HasSkin()) {
+               return true;
+            }
+         }
+         return false;
+      }
+
+      //============================================================
+      // <T>获得皮肤个数。</T>
+      //============================================================
+      public int SkinCount() {
+         int count = 0;
+         foreach (FDrGeometry geometry in _geometryDictionary.Values) {
+            if (geometry.HasSkin()) {
+               count++;
+            }
+         }
+         return count;
+      }
+
+      //============================================================
+      public void SerializeSkin(IOutput output) {
+         int count = SkinCount();
+         output.WriteInt32(count);
+         foreach (FDrGeometry geometry in _geometryDictionary.Values) {
+            if (geometry.HasSkin())  {
+               geometry.SerializeSkin(output);
+            }
+         }
+      }
+
+      //============================================================
+      public bool HasTrack() {
+         foreach (FDrGeometry geometry in _geometryDictionary.Values) {
+            FDrTrack track = geometry.Track;
+            if (!track.IsEmpty()) {
+               return true;
+            }
+         }
+         return false;
+      }
+
+      //============================================================
+      public void FetchTracks(FObjects<FDrTrack> tracks) {
+         foreach (FDrGeometry geometry in _geometryDictionary.Values) {
+            FDrTrack track = geometry.Track;
+            if (!track.IsEmpty()) {
+               tracks.Push(track);
+            }
          }
       }
 

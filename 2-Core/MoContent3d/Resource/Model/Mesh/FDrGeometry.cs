@@ -444,6 +444,13 @@ namespace MO.Content3d.Resource.Model.Mesh
       }
 
       //============================================================
+      // <T>获得最大权重数目。</T>
+      //============================================================
+      public FDrTrack Track {
+         get { return _track; }
+      }
+
+      //============================================================
       // <T>测试动画是否有缩放。</T>
       //============================================================
       public bool TestScale() {
@@ -1384,7 +1391,6 @@ namespace MO.Content3d.Resource.Model.Mesh
             _logger.Debug(this, "Serialize", "Too many vectex. (name={0}, vertex_count={1})", _name, _adjustVertexDictionary.Count);
             throw new FFatalException("Too many vectex. (name={0}, vertex_count={1})", _name, _adjustVertexDictionary.Count);
          }
-         //output.WriteInt32(_adjustVertexDictionary.Count);
          //............................................................
          // 计算标志
          int streamCount = 0;
@@ -1466,6 +1472,40 @@ namespace MO.Content3d.Resource.Model.Mesh
                   pair.Value.Tangent.Serialize(stream);
                }
             }
+            //............................................................
+            // 输出索引信息
+            streamCount++;
+            int faceCount = _faceList.Count;
+            stream.WriteString(EContent3dAttribute.Index32);
+            stream.WriteInt8((sbyte)EDrData.Int32);
+            stream.WriteInt8(3);
+            stream.WriteInt16(sizeof(int) * 3);
+            stream.WriteInt32(faceCount);
+            for (int n = 0; n < faceCount; n++) {
+               _faceList[n].Serialize2(stream);
+            }
+            // 写入流信息
+            output.WriteInt32(streamCount);
+            output.WriteBytes(stream.Memory, 0, stream.Length);
+         }
+      }
+
+      //============================================================
+      // <T>是否含有皮肤。</T>
+      //============================================================
+      public bool HasSkin() {
+         return _weightMaxCount > 0;
+      }
+
+      //============================================================
+      // <T>序列化数据到输出流。</T>
+      //============================================================
+      public void SerializeSkin(IOutput output) {
+         output.WriteString(_name);
+         //............................................................
+         // 输出蒙皮数据流集合
+         int streamCount = 0;
+         using (FByteStream stream = new FByteStream()) {
             if (_weightMaxCount > 0) {
                // 写出骨头索引
                streamCount++;
@@ -1488,35 +1528,15 @@ namespace MO.Content3d.Resource.Model.Mesh
                   pair.Value.SerializeBoneWeight2(this, stream);
                }
             }
-            //............................................................
-            // 输出索引信息
-            streamCount++;
-            int faceCount = _faceList.Count;
-            stream.WriteString(EContent3dAttribute.Index32);
-            stream.WriteInt8((sbyte)EDrData.Int32);
-            stream.WriteInt8(3);
-            stream.WriteInt16(sizeof(int) * 3);
-            stream.WriteInt32(faceCount);
-            for (int n = 0; n < faceCount; n++) {
-               _faceList[n].Serialize2(stream);
-            }
             // 写入流信息
-            output.WriteInt16((short)streamCount);
+            output.WriteInt32((short)streamCount);
             output.WriteBytes(stream.Memory, 0, stream.Length);
          }
          //............................................................
-         // 输出骨骼列表
+         // 输出骨头引用集合
          output.WriteInt32(_adjustBones.Count);
          foreach (FDrBone bone in _adjustBones.Values) {
             output.WriteInt32(bone.AdjustId);
-         }
-         //............................................................
-         // 输出跟踪列表
-         if (!_track.IsEmpty()) {
-            output.WriteBool(true);
-            _track.Serialize2(output);
-         } else {
-            output.WriteBool(false);
          }
       }
    }
