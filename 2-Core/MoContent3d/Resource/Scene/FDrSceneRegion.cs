@@ -310,22 +310,22 @@ namespace MO.Content3d.Resource.Scene
          // 存储颜色
          _color.Serialize(output);
          // 存储颜色级别
-         _colorLevel.Serialize(output);
+         //_colorLevel.Serialize(output);
          // 存储雾化
-         output.WriteFloat(_fogNear);
-         output.WriteFloat(_fogFar);
-         output.WriteFloat(_fogRate);
-         output.WriteFloat(_fogAttenuation);
-         _fogColor.Serialize(output);
+         //output.WriteFloat(_fogNear);
+         //output.WriteFloat(_fogFar);
+         //output.WriteFloat(_fogRate);
+         //output.WriteFloat(_fogAttenuation);
+         //_fogColor.Serialize(output);
          // 存储边界
-         output.WriteFloat(_edgeRate);
-         output.WriteFloat(_edgeLevel);
-         output.WriteFloat(_edgeWidth);
-         _edgeColor.Serialize(output);
+         //output.WriteFloat(_edgeRate);
+         //output.WriteFloat(_edgeLevel);
+         //output.WriteFloat(_edgeWidth);
+         //_edgeColor.Serialize(output);
          // 存储平面
-         output.WriteFloat(_faceRange);
-         output.WriteFloat(_faceLimit);
-         output.WriteFloat(_faceRate);
+         //output.WriteFloat(_faceRange);
+         //output.WriteFloat(_faceLimit);
+         //output.WriteFloat(_faceRate);
          // 存储相机
          _camera.Serialize(output);
          // 存储光源

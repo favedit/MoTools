@@ -214,15 +214,15 @@ namespace MO.Content3d.Resource.Scene
          // 输出属性
          output.WriteString(_typeName);
          // 输出中心
-         output.WriteFloat(_centerFront);
-         output.WriteFloat(_centerBack);
+         //output.WriteFloat(_centerFront);
+         //output.WriteFloat(_centerBack);
          // 输出位置
          _position.Serialize(output);
          // 输出方向
          _direction.Serialize(output);
          // 输出焦平面
-         output.WriteFloat(_focalNear);
-         output.WriteFloat(_focalFar);
+         //output.WriteFloat(_focalNear);
+         //output.WriteFloat(_focalFar);
          // 输出视角
          _viewport.Serialize(output);
       }

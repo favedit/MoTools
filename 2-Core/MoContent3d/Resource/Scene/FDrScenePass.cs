@@ -66,8 +66,8 @@ namespace MO.Content3d.Resource.Scene
       //============================================================
       public void Serialize(IOutput output) {
          output.WriteString(_name);
-         output.WriteUint16((ushort)_renderTargetSize.Width);
-         output.WriteUint16((ushort)_renderTargetSize.Height);
+         output.WriteInt32(_renderTargetSize.Width);
+         output.WriteInt32(_renderTargetSize.Height);
       }
 
       //============================================================

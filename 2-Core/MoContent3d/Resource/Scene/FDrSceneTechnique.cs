@@ -84,7 +84,7 @@ namespace MO.Content3d.Resource.Scene
       public void Serialize(IOutput output) {
          output.WriteString(_name);
          // 读取过程集合
-         output.WriteUint8((byte)_passes.Count);
+         output.WriteInt32(_passes.Count);
          foreach (FDrScenePass pass in _passes) {
             pass.Serialize(output);
          }

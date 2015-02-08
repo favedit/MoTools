@@ -286,19 +286,19 @@ namespace MO.Content3d.Resource.Scene
          // 输出属性
          output.WriteString(_typeName);
          // 输出配置
-         output.WriteInt32(_optionTrack);
+         //output.WriteInt32(_optionTrack);
          // 输出阴影
-         _shadow1.Serialize(output);
-         _shadow2.Serialize(output);
-         _shadow3.Serialize(output);
-         output.WriteFloat(_shadowAmbientMin);
-         output.WriteFloat(_shadowAmbientMax);
-         output.WriteFloat(_shadowAmbientThick);
-         output.WriteFloat(_shadowAmbientRange);
-         output.WriteFloat(_shadowMerge1Base);
-         output.WriteFloat(_shadowMerge1Rate);
-         output.WriteFloat(_shadowMerge2Base);
-         output.WriteFloat(_shadowMerge2Rate);
+         //_shadow1.Serialize(output);
+         //_shadow2.Serialize(output);
+         //_shadow3.Serialize(output);
+         //output.WriteFloat(_shadowAmbientMin);
+         //output.WriteFloat(_shadowAmbientMax);
+         //output.WriteFloat(_shadowAmbientThick);
+         //output.WriteFloat(_shadowAmbientRange);
+         //output.WriteFloat(_shadowMerge1Base);
+         //output.WriteFloat(_shadowMerge1Rate);
+         //output.WriteFloat(_shadowMerge2Base);
+         //output.WriteFloat(_shadowMerge2Rate);
          // 输出材质
          _material.Serialize(output);
          // 输出相机

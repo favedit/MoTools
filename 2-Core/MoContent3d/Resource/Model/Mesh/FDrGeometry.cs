@@ -1385,6 +1385,9 @@ namespace MO.Content3d.Resource.Model.Mesh
       //============================================================
       public void Serialize2(IOutput output) {
          output.WriteString(_name);
+         // 输出轮廓
+         _outlineMin.Serialize(output);
+         _outlineMax.Serialize(output);
          //............................................................
          // 输出顶点信息
          if (_adjustVertexDictionary.Count >= 65536) {

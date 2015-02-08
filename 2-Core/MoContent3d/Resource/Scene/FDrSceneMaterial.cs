@@ -383,18 +383,18 @@ namespace MO.Content3d.Resource.Scene
          output.WriteString(Code);
          output.WriteString(_label);
          // 存储设置
-         SerializeInfo(output);
+         //SerializeInfo(output);
          // 存储高度
-         output.WriteFloat(_heightDepth);
+         //output.WriteFloat(_heightDepth);
          // 存储表面
-         output.WriteFloat(_surfaceRate);
-         output.WriteFloat(_surfaceReflect);
-         output.WriteFloat(_surfaceBright);
-         output.WriteFloat(_surfaceBrightLevel);
-         output.WriteFloat(_surfaceCoarse);
-         output.WriteFloat(_surfaceCoarseLevel);
-         output.WriteFloat(_surfaceMerge);
-         output.WriteFloat(_surfacePower); 
+         //output.WriteFloat(_surfaceRate);
+         //output.WriteFloat(_surfaceReflect);
+         //output.WriteFloat(_surfaceBright);
+         //output.WriteFloat(_surfaceBrightLevel);
+         //output.WriteFloat(_surfaceCoarse);
+         //output.WriteFloat(_surfaceCoarseLevel);
+         //output.WriteFloat(_surfaceMerge);
+         //output.WriteFloat(_surfacePower); 
       }
 
       //============================================================

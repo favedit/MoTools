@@ -227,23 +227,23 @@ namespace MO.Content3d.Resource.Scene
       public void Serialize(IOutput output) {
          // 存储属性
          output.WriteString(RDrUtil.FormatPathToCode(_source));
-         output.WriteInt8((sbyte)_template.OptionMergeVertex);
-         output.WriteInt8((sbyte)_template.OptionMergeMaterial);
+         //output.WriteInt8((sbyte)_template.OptionMergeVertex);
+         //output.WriteInt8((sbyte)_template.OptionMergeMaterial);
          // 存储矩阵
          //_matrix.SerializeData(output);
          _matrix.Serialize(output);
          // 存储动画集合
-         output.WriteUint16((ushort)_movies.Count);
-         foreach (FDrSceneMovie movie in _movies) {
-            movie.Serialize(output);
-         }
+         //output.WriteUint16((ushort)_movies.Count);
+         //foreach (FDrSceneMovie movie in _movies) {
+         //   movie.Serialize(output);
+         //}
          // 存储材质集合
-         output.WriteUint16((ushort)_materials.Count);
+         output.WriteInt32(_materials.Count);
          foreach(FDrSceneMaterial material in _materials) {
             material.Serialize(output);
          }
          // 存储渲染集合
-         output.WriteUint16((ushort)_renderables.Count);
+         output.WriteInt32(_renderables.Count);
          foreach(FDrSceneRenderable renderable in _renderables) {
             renderable.Serialize(output);
          }

@@ -266,6 +266,7 @@ namespace MO.Content3d.Resource.Scene
       //============================================================
       public override void Serialize(IOutput output) {
          base.Serialize(output);
+         output.WriteString(_label);
          // 输出属性
          output.WriteString(_themeName);
          // 输出配置

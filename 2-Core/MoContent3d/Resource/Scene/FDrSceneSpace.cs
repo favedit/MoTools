@@ -129,7 +129,7 @@ namespace MO.Content3d.Resource.Scene
       public void Serialize(IOutput output) {
          output.WriteString(_scene.Name + ":space");
          output.WriteString("normal");
-         output.WriteUint16((ushort)_displays.Count);
+         output.WriteInt32(_displays.Count);
          foreach(FDrSceneDisplay display in _displays) {
             display.Serialize(output);
          }
