@@ -105,7 +105,7 @@ namespace MO.Content3d.Resource.Scene
       // @param output 输出流
       //============================================================
       public void Serialize(IOutput output) {
-         output.WriteString(_scene.Name + ":sky");
+         output.WriteString("sky");
          output.WriteString("normal");
          output.WriteInt32(_displays.Count);
          foreach(FDrSceneDisplay display in _displays) {

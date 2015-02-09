@@ -898,7 +898,7 @@ namespace MO.Content3d.Resource.Material
       //
       // @param output 输出流
       //============================================================
-      public void SerializeInfo(IOutput output) {
+      public virtual void SerializeInfo(IOutput output) {
          // 修正数据
          if(RString.IsBlank(_effectName)) {
             _effectName = "automatic";
