@@ -5,6 +5,7 @@ using MO.Common.Lang;
 using MO.Core;
 using MO.Content3d.Common;
 using MO.Content3d.Resource.Material;
+using MO.Common.Geom;
 
 namespace MO.Content3d.Resource.Scene
 {
@@ -108,7 +109,7 @@ namespace MO.Content3d.Resource.Scene
          get { return _heightDepth; }
          set { _heightDepth = value; }
       }
-      
+
       //============================================================
       // <T>获得或设置表面比率。</T>
       //============================================================
@@ -172,7 +173,7 @@ namespace MO.Content3d.Resource.Scene
          get { return _surfacePower; }
          set { _surfacePower = value; }
       }
-      
+
       //============================================================
       // <T>加载配置信息。</T>
       //
@@ -378,7 +379,21 @@ namespace MO.Content3d.Resource.Scene
       //
       // @param output 输出流
       //============================================================
+      public void SerializeColorPower(IOutput output, SFloatColor4 color1, SFloatColor4 color2) {
+         float power = color1.A * color2.A;
+         output.WriteFloat(color1.R * color2.R * power);
+         output.WriteFloat(color1.G * color2.G * power);
+         output.WriteFloat(color1.B * color2.B * power);
+         output.WriteFloat(1.0f);
+      }
+
+      //============================================================
+      // <T>序列化内部数据到输出流。</T>
+      //
+      // @param output 输出流
+      //============================================================
       public override void SerializeInfo(IOutput output) {
+         FDrSceneMaterial lightMaterial = _scene.Region.Light.Material;
          // 修正数据
          if (RString.IsBlank(_effectName)) {
             _effectName = "automatic";
@@ -416,29 +431,32 @@ namespace MO.Content3d.Resource.Scene
          //output.WriteFloat(_alphaLevel);
          //output.WriteFloat(_alphaMerge);
          // 存储属性
-         _ambientColor.Serialize(output);
+         SerializeColorPower(output, _ambientColor, lightMaterial.AmbientColor);
+         //lightMaterial
          //output.WriteFloat(_ambientShadow);
-         _diffuseColor.Serialize(output);
+         SerializeColorPower(output, _diffuseColor, lightMaterial.DiffuseColor);
          //output.WriteFloat(_diffuseShadow);
-         _diffuseViewColor.Serialize(output);
+         SerializeColorPower(output, _diffuseViewColor, lightMaterial.DiffuseViewColor);
          //output.WriteFloat(_diffuseViewShadow);
-         _specularColor.Serialize(output);
+         SerializeColorPower(output, _specularColor, lightMaterial.SpecularColor);
          //output.WriteFloat(_specularBase);
-         output.WriteFloat(_specularRate);
+         output.WriteFloat(_specularRate * lightMaterial.SpecularRate);
+         //output.WriteFloat(_specularRate);
          //output.WriteFloat(_specularAverage);
          //output.WriteFloat(_specularShadow);
-         _specularViewColor.Serialize(output);
+         SerializeColorPower(output, _specularViewColor, lightMaterial.SpecularViewColor);
          //output.WriteFloat(_specularViewBase);
-         output.WriteFloat(_specularViewRate);
+         output.WriteFloat(_specularViewRate * lightMaterial.SpecularViewRate);
+         //output.WriteFloat(_specularViewRate);
          //output.WriteFloat(_specularViewAverage);
          //output.WriteFloat(_specularViewShadow);
          // 存储反射
-         _reflectColor.Serialize(output);
+         SerializeColorPower(output, _reflectColor, lightMaterial.ReflectColor);
          output.WriteFloat(_reflectMerge);
          //output.WriteFloat(_reflectShadow);
          // 存储折射
-         _refractFrontColor.Serialize(output);
-         _refractBackColor.Serialize(output);
+         SerializeColorPower(output, _refractFrontColor, lightMaterial.RefractFrontColor);
+         SerializeColorPower(output, _refractBackColor, lightMaterial.RefractBackColor);
          // 存储不透明度
          //_opacityColorColor.Serialize(output);
          //output.WriteFloat(_opacityRate);
