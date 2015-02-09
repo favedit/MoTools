@@ -380,11 +380,16 @@ namespace MO.Content3d.Resource.Scene
       // @param output 输出流
       //============================================================
       public void SerializeColorPower(IOutput output, SFloatColor4 color1, SFloatColor4 color2) {
-         float power = color1.A * color2.A;
-         output.WriteFloat(color1.R * color2.R * power);
-         output.WriteFloat(color1.G * color2.G * power);
-         output.WriteFloat(color1.B * color2.B * power);
-         output.WriteFloat(1.0f);
+         FDrSceneMaterial lightMaterial = _scene.Region.Light.Material;
+         if (lightMaterial == this) {
+            color1.Serialize(output);
+         } else {
+            float power = color1.A * color2.A;
+            output.WriteFloat(color1.R * color2.R * power);
+            output.WriteFloat(color1.G * color2.G * power);
+            output.WriteFloat(color1.B * color2.B * power);
+            output.WriteFloat(1.0f);
+         }
       }
 
       //============================================================

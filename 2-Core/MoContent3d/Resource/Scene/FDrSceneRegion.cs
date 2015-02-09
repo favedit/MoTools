@@ -10,6 +10,9 @@ namespace MO.Content3d.Resource.Scene
    //============================================================
    public class FDrSceneRegion : FObject
    {
+      // 场景
+      protected FDrScene _scene;
+
       // 颜色
       protected SFloatColor4 _color = new SFloatColor4();
 
@@ -62,6 +65,17 @@ namespace MO.Content3d.Resource.Scene
       // <T>构造场景区域。</T>
       //============================================================
       public FDrSceneRegion() {
+      }
+
+      //============================================================
+      // <T>获得或设置场景。</T>
+      //============================================================
+      public FDrScene Scene {
+         get { return _scene; }
+         set { 
+            _scene = value;
+            _light.Scene = value;
+         }
       }
 
       //============================================================

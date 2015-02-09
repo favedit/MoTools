@@ -52,6 +52,7 @@ namespace MO.Content3d.Resource.Scene
       public FDrScene() {
          _typeName = EDrResourceType.Scene;
          _typeLabel = "Scene";
+         _region.Scene = this;
          _sky.Scene = this;
          _map.Scene = this;
          _space.Scene = this;

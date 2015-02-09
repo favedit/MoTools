@@ -10,6 +10,9 @@ namespace MO.Content3d.Resource.Scene
    //============================================================
    public class FDrSceneLight : FObject
    {
+      // 场景
+      protected FDrScene _scene;
+
       // 类型
       protected string _typeName;
 
@@ -59,6 +62,17 @@ namespace MO.Content3d.Resource.Scene
       // <T>构造场景光源信息。</T>
       //============================================================
       public FDrSceneLight() {
+      }
+
+      //============================================================
+      // <T>获得或设置场景。</T>
+      //============================================================
+      public FDrScene Scene {
+         get { return _scene; }
+         set { 
+            _scene = value;
+            _material.Scene = value;
+         }
       }
 
       //============================================================
