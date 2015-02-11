@@ -381,15 +381,28 @@ namespace MO.Content3d.Resource.Scene
       //============================================================
       public void SerializeColorPower(IOutput output, SFloatColor4 color1, SFloatColor4 color2) {
          FDrSceneMaterial lightMaterial = _scene.Region.Light.Material;
+         float r = 0.0f;
+         float g = 0.0f;
+         float b = 0.0f;
+         float rate = 1.0f;
          if (lightMaterial == this) {
-            color1.Serialize(output);
+            float power = color1.A;
+            r = color1.R * power;
+            g = color1.G * power;
+            b = color1.B * power;
+            rate = Math.Max(Math.Max(r, g), b);
          } else {
             float power = color1.A * color2.A;
-            output.WriteFloat(color1.R * color2.R * power);
-            output.WriteFloat(color1.G * color2.G * power);
-            output.WriteFloat(color1.B * color2.B * power);
-            output.WriteFloat(1.0f);
+            r = color1.R * color2.R * power;
+            g = color1.G * color2.G * power;
+            b = color1.B * color2.B * power;
+            rate = Math.Max(Math.Max(r, g), b);
          }
+         rate = Math.Min(rate, 1.0f);
+         output.WriteFloat(r / rate);
+         output.WriteFloat(g / rate);
+         output.WriteFloat(b / rate);
+         output.WriteFloat(rate);
       }
 
       //============================================================
