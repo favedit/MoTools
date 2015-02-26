@@ -5,13 +5,11 @@ using MO.Core;
 using MO.Content3d.Resource.Template;
 using MO.Content3d.Common;
 
-namespace MO.Content3d.Resource.Scene
-{
+namespace MO.Content3d.Resource.Scene {
    //============================================================
    // <T>场景显示。</T>
    //============================================================
-   public class FDrSceneDisplay : FDrSceneDrawable
-   {
+   public class FDrSceneDisplay : FDrSceneDrawable {
       // 场景
       protected FDrScene _scene;
 
@@ -29,7 +27,7 @@ namespace MO.Content3d.Resource.Scene
 
       // 材质集合
       protected FObjects<FDrSceneRenderable> _renderables = new FObjects<FDrSceneRenderable>();
-      
+
       //============================================================
       // <T>构造场景节点。</T>
       //============================================================
@@ -93,9 +91,9 @@ namespace MO.Content3d.Resource.Scene
             RMoCore.TrackConsole.Write(this, "LoadOrignConfig", "Template is not exists. (scene={0}, template={1})", _scene.Name, _source);
          }
          // 获得节点集合
-         foreach(FXmlNode xnode in xconfig.Nodes) {
+         foreach (FXmlNode xnode in xconfig.Nodes) {
             // 加载矩阵
-            if(xnode.IsName("Matrix")) {
+            if (xnode.IsName("Matrix")) {
                _modelMatrix.LoadSingleConfig(xnode);
             }
             // 加载动画集合
@@ -109,9 +107,9 @@ namespace MO.Content3d.Resource.Scene
                }
             }
             // 加载材质集合
-            if(xnode.IsName("Materials")) {
-               foreach(FXmlNode xmaterial in xnode.Nodes) {
-                  if(xmaterial.IsName("Material")) {
+            if (xnode.IsName("Materials")) {
+               foreach (FXmlNode xmaterial in xnode.Nodes) {
+                  if (xmaterial.IsName("Material")) {
                      FDrSceneMaterial material = new FDrSceneMaterial();
                      material.Scene = _scene;
                      material.LoadOrignConfig(xmaterial);
@@ -120,9 +118,9 @@ namespace MO.Content3d.Resource.Scene
                }
             }
             // 加载渲染集合
-            if(xnode.IsName("Renderables")) {
-               foreach(FXmlNode xrenderable in xnode.Nodes) {
-                  if(xrenderable.IsName("Renderables")) {
+            if (xnode.IsName("Renderables")) {
+               foreach (FXmlNode xrenderable in xnode.Nodes) {
+                  if (xrenderable.IsName("Renderables")) {
                      FDrSceneRenderable renderable = new FDrSceneRenderable();
                      renderable.LoadOrignConfig(xrenderable);
                      _renderables.Push(renderable);
@@ -141,18 +139,18 @@ namespace MO.Content3d.Resource.Scene
          // 获得属性
          _source = xconfig.Get("source");
          _template = RContent3dManager.TemplateConsole.Find(_source);
-         if(null == _template) {
+         if (null == _template) {
             RMoCore.TrackConsole.Write(this, "LoadConfig", "Template is not exists. (scene={0}, template={1})", _scene.Name, _source);
          }
          // 获得节点集合
-         foreach(FXmlNode xnode in xconfig.Nodes) {
+         foreach (FXmlNode xnode in xconfig.Nodes) {
             // 加载矩阵
-            if(xnode.IsName("Matrix")) {
+            if (xnode.IsName("Matrix")) {
                _modelMatrix.LoadSingleConfig(xnode);
             }
             // 加载动画集合
-            if(xnode.IsName("Movies")) {
-               foreach(FXmlNode xmovie in xnode.Nodes) {
+            if (xnode.IsName("Movies")) {
+               foreach (FXmlNode xmovie in xnode.Nodes) {
                   if (xmovie.IsName("Movie")) {
                      FDrSceneMovie movie = new FDrSceneMovie();
                      movie.LoadConfig(xmovie);
@@ -172,9 +170,9 @@ namespace MO.Content3d.Resource.Scene
                }
             }
             // 加载渲染集合
-            if(xnode.IsName("Renderables")) {
-               foreach(FXmlNode xrenderable in xnode.Nodes) {
-                  if(xrenderable.IsName("Renderables")) {
+            if (xnode.IsName("Renderables")) {
+               foreach (FXmlNode xrenderable in xnode.Nodes) {
+                  if (xrenderable.IsName("Renderables")) {
                      FDrSceneRenderable renderable = new FDrSceneRenderable();
                      renderable.LoadConfig(xrenderable);
                      _renderables.Push(renderable);
@@ -199,7 +197,7 @@ namespace MO.Content3d.Resource.Scene
          // 存储动画集合
          if (!_movies.IsEmpty()) {
             FXmlNode xmovies = xconfig.CreateNode("Movies");
-            foreach(FDrSceneMovie movie in _movies) {
+            foreach (FDrSceneMovie movie in _movies) {
                movie.SaveConfig(xmovies.CreateNode("Movie"));
             }
          }
@@ -213,7 +211,7 @@ namespace MO.Content3d.Resource.Scene
          // 存储渲染集合
          if (!_renderables.IsEmpty()) {
             FXmlNode xrenderables = xconfig.CreateNode("Renderables");
-            foreach(FDrSceneRenderable renderable in _renderables) {
+            foreach (FDrSceneRenderable renderable in _renderables) {
                renderable.SaveConfig(xrenderables.CreateNode("Renderable"));
             }
          }
@@ -230,21 +228,20 @@ namespace MO.Content3d.Resource.Scene
          //output.WriteInt8((sbyte)_template.OptionMergeVertex);
          //output.WriteInt8((sbyte)_template.OptionMergeMaterial);
          // 存储矩阵
-         //_matrix.SerializeData(output);
          _matrix.Serialize(output);
          // 存储动画集合
-         //output.WriteUint16((ushort)_movies.Count);
-         //foreach (FDrSceneMovie movie in _movies) {
-         //   movie.Serialize(output);
-         //}
+         output.WriteInt32(_movies.Count);
+         foreach (FDrSceneMovie movie in _movies) {
+            movie.Serialize(output);
+         }
          // 存储材质集合
          output.WriteInt32(_materials.Count);
-         foreach(FDrSceneMaterial material in _materials) {
+         foreach (FDrSceneMaterial material in _materials) {
             material.Serialize(output);
          }
          // 存储渲染集合
          output.WriteInt32(_renderables.Count);
-         foreach(FDrSceneRenderable renderable in _renderables) {
+         foreach (FDrSceneRenderable renderable in _renderables) {
             renderable.Serialize(output);
          }
       }
