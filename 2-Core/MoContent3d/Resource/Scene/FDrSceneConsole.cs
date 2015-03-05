@@ -48,7 +48,7 @@ namespace MO.Content3d.Resource.Scene
       // @param folder 文件夹
       // @param path 路径
       //============================================================
-      protected void ScanNodes(FDrFolder folder, string path) {
+      protected void ScanNodes(FDrFolder folder, string path, string pathLabel) {
          string fileTag = string.Empty;
          // 文件夹排序
          folder.Folders.Sort();
@@ -59,7 +59,8 @@ namespace MO.Content3d.Resource.Scene
             if(items.Length >= 3) {
                string type = items[0];
                string dotPath = path + "\\" + items[1];
-               if("fd" == type) {
+               string dotPathLabel = pathLabel + "\\" + items[2];
+               if ("fd" == type) {
                   subfloder.Type = "folder";
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                } else if("sc" == type) {
@@ -68,6 +69,7 @@ namespace MO.Content3d.Resource.Scene
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                   group.Name = dotPath;
                   group.Label = items[2];
+                  group.FullLabel = dotPathLabel;
                   group.Directory = subfloder.Directory;
                   group.DirectoryExprot = _exportDirectory;
                   group.Scan();
@@ -76,7 +78,7 @@ namespace MO.Content3d.Resource.Scene
                   _sceneGroups.Set(group.Code, group);
                   _folders.Push(subfloder);
                }
-               ScanNodes(subfloder, dotPath);
+               ScanNodes(subfloder, dotPath, dotPathLabel);
             }
          }
       }
@@ -86,7 +88,7 @@ namespace MO.Content3d.Resource.Scene
       //============================================================
       public override void Open() {
          base.Open();
-         ScanNodes(_folder as FDrFolder, String.Empty);
+         ScanNodes(_folder as FDrFolder, String.Empty, String.Empty);
       }
 
       //============================================================

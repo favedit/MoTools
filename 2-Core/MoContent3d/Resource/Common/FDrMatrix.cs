@@ -39,6 +39,28 @@ namespace MO.Content3d.Resource.Common
       }
 
       //============================================================
+      // <T>判断数据是否相等。</T>
+      //
+      // @param value 数据
+      // @return 是否相等
+      //============================================================
+      public bool EqualsData(FDrMatrix matrix) {
+         if (!_translation.EqualsData(matrix._translation)) {
+            return false;
+         }
+         if (!_quaternion.EqualsData(matrix._quaternion)) {
+            return false;
+         }
+         if (!_euler.EqualsData(matrix._euler)) {
+            return false;
+         }
+         if (!_scale.EqualsData(matrix._scale)) {
+            return false;
+         }
+         return true;
+      }
+
+      //============================================================
       // <T>加载配置信息。</T>
       //
       // @param config 配置信息

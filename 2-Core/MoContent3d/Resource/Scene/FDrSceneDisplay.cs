@@ -4,12 +4,15 @@ using MO.Common.Lang;
 using MO.Core;
 using MO.Content3d.Resource.Template;
 using MO.Content3d.Common;
+using MO.Content3d.Resource.Material;
 
-namespace MO.Content3d.Resource.Scene {
+namespace MO.Content3d.Resource.Scene
+{
    //============================================================
    // <T>场景显示。</T>
    //============================================================
-   public class FDrSceneDisplay : FDrSceneDrawable {
+   public class FDrSceneDisplay : FDrSceneDrawable
+   {
       // 场景
       protected FDrScene _scene;
 
@@ -218,13 +221,29 @@ namespace MO.Content3d.Resource.Scene {
       }
 
       //============================================================
+      // <T>根据代码查找材质。</T>
+      //
+      // @param output 输出流
+      //============================================================
+      public FDrSceneMaterial FindMaterial(string code) {
+         foreach (FDrSceneMaterial material in _materials) {
+            if (material.Code == code) {
+               return material;
+            }
+         }
+         return null;
+      }
+
+      //============================================================
       // <T>序列化内部数据到输出流。</T>
       //
       // @param output 输出流
       //============================================================
       public void Serialize(IOutput output) {
+         string code = RDrUtil.FormatPathToCode(_source);
+         FDrTemplate template = RContent3dManager.TemplateConsole.Find(code);
          // 存储属性
-         output.WriteString(RDrUtil.FormatPathToCode(_source));
+         output.WriteString(code);
          //output.WriteInt8((sbyte)_template.OptionMergeVertex);
          //output.WriteInt8((sbyte)_template.OptionMergeMaterial);
          // 存储矩阵
@@ -235,9 +254,20 @@ namespace MO.Content3d.Resource.Scene {
             movie.Serialize(output);
          }
          // 存储材质集合
-         output.WriteInt32(_materials.Count);
-         foreach (FDrSceneMaterial material in _materials) {
-            material.Serialize(output);
+         int materialCount = template.Materials.Count;
+         output.WriteInt32(materialCount);
+         foreach (FDrMaterialGroup materialGroup in template.Materials) {
+            string materialCode = materialGroup.Code;
+            FDrSceneMaterial material = FindMaterial(materialCode);
+            if (material == null) {
+               material = new FDrSceneMaterial();
+               material.Scene = _scene;
+               material.Name = materialGroup.Name;
+               material.LoadMaterial(materialGroup.Materials.First);
+               material.Serialize(output);
+            } else {
+               material.Serialize(output);
+            }
          }
          // 存储渲染集合
          output.WriteInt32(_renderables.Count);

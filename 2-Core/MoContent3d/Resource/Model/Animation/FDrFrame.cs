@@ -33,6 +33,25 @@ namespace MO.Content3d.Resource.Model.Animation
       }
 
       //============================================================
+      // <T>判断数据是否相等。</T>
+      //
+      // @param value 数据
+      // @return 是否相等
+      //============================================================
+      public bool EqualsData(FDrFrame frame) {
+         if (!_objectMatrix.EqualsData(frame._objectMatrix)) {
+            return false;
+         }
+         if (!_localMatrix.EqualsData(frame._localMatrix)) {
+            return false;
+         }
+         if (!_worldMatrix.EqualsData(frame._worldMatrix)) {
+            return false;
+         }
+         return true;
+      }
+
+      //============================================================
       // <T>获得或设置索引。</T>
       //============================================================
       public int Index {

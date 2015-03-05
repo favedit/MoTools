@@ -400,14 +400,11 @@ namespace MO.Content3d.Resource.Template
 
       //============================================================
       public void ExportConfig(FXmlNode xconfig) {
-         xconfig.Set("code", Code);
          // 存储属性
-         //output.WriteInt8((sbyte)_optionLoaded);
-         //output.WriteInt8((sbyte)_optionSelect);
-         //output.WriteInt8((sbyte)_optionGround);
-         //output.WriteInt8((sbyte)_optionMergeVertex);
-         //output.WriteInt8((sbyte)_optionMergeMaterial);
-         //output.WriteInt8((sbyte)_optionLightMap);
+         xconfig.Set("code", Code);
+         xconfig.Set("full_code", _name);
+         xconfig.Set("label", _label);
+         xconfig.Set("keywords", _fullLabel);
          //............................................................
          // 统计材质次数
          FDictionary<FDrModelMaterial> materials = new FDictionary<FDrModelMaterial>();
@@ -506,16 +503,8 @@ namespace MO.Content3d.Resource.Template
          // 打开资源
          Open();
          //............................................................
-         //string exportFileName = RContent3dManager.TemplateConsole.ExportDirectory + "\\" + CodeNumber + ".ser";
-         //............................................................
          // 序列化数据
-         string exportFileName = RContent3dManager.TemplateConsole.ExportDirectory + "\\" + Code + ".ser";
-         FByteFile file = new FByteFile();
-         Serialize(file);
-         file.SaveFile(exportFileName);
-         //............................................................
-         // 序列化数据
-         exportFileName = RContent3dManager.TemplateConsole.ExportDirectory + "\\" + Code + ".xml";
+         string exportFileName = RContent3dManager.TemplateConsole.ExportDirectory + "\\" + Code + ".xml";
          FXmlDocument xdoc = new FXmlDocument();
          ExportConfig(xdoc.Root.CreateNode("Template"));
          xdoc.SaveFile(exportFileName);

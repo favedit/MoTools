@@ -24,6 +24,9 @@ namespace MO.Content3d.Resource.Common
       // 标签
       protected string _label;
 
+      // 全标签
+      protected string _fullLabel;
+
       // 类型代码
       protected string _typeCode;
 
@@ -109,6 +112,14 @@ namespace MO.Content3d.Resource.Common
       public string Label {
          get { return _label; }
          set { _label = value; }
+      }
+
+      //============================================================
+      // <T>获得或设置全标签。</T>
+      //============================================================
+      public string FullLabel {
+         get { return _fullLabel; }
+         set { _fullLabel = value; }
       }
 
       //============================================================

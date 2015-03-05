@@ -335,6 +335,9 @@ namespace MO.Content3d.Resource.Model
       //============================================================
       public void Serialize2(IOutput output) {
          output.WriteString(Code);
+         output.WriteString(_name);
+         output.WriteString(_label);
+         output.WriteString(_fullLabel);
          // 输出网格
          _mesh.Serialize2(output);
       }
@@ -379,15 +382,9 @@ namespace MO.Content3d.Resource.Model
          // 打开资源
          Open();
          //............................................................
-         // 序列化数据1
-         string exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".ser";
+         // 序列化数据
+         string exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".msh";
          FByteFile file = new FByteFile();
-         Serialize(file);
-         file.SaveFile(exportFileName);
-         //............................................................
-         // 序列化数据2
-         exportFileName = RContent3dManager.ModelConsole.ExportDirectory + "\\" + Code + ".msh";
-         file = new FByteFile();
          Serialize2(file);
          file.SaveFile(exportFileName);
          // 序列化骨骼

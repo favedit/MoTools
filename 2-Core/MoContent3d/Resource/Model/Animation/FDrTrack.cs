@@ -49,7 +49,16 @@ namespace MO.Content3d.Resource.Model.Animation
 
       //============================================================
       public bool IsEmpty(){
-         return _frameList.IsEmpty;
+         if (_frameList.Count == 0) {
+            return true;
+         }
+         FDrFrame first = _frameList.First;
+         foreach(FDrFrame frame in _frameList) {
+            if (!first.EqualsData(frame)) {
+               return false;
+            }
+         }
+         return true;
       }
 
       //============================================================

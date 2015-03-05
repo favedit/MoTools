@@ -103,6 +103,11 @@ namespace MO.Content3d.Resource.Texture
       // @param config 配置信息
       //============================================================
       public virtual void SaveConfig(FXmlNode config) {
+         // 设置信息
+         config.Set("code", Code);
+         config.Set("name", _name);
+         config.Set("label", _label);
+         config.Set("full_label", _fullLabel);
       }
 
       //============================================================
@@ -183,17 +188,24 @@ namespace MO.Content3d.Resource.Texture
          // 打开资源
          Open();
          //............................................................
-         //string exportFileName = RContent3dManager.TextureConsole.ExportDirectory + "\\" + CodeNumber + ".ser";
-         string exportFileName = RContent3dManager.TextureConsole.ExportDirectory + "\\" + Code + ".ser";
+         // 创建目录
+         string exportFilePath = RContent3dManager.TextureConsole.ExportDirectory + "\\" + Code;
+         RDirectory.MakeDirectories(exportFilePath);
          //............................................................
-         // 序列化数据
-         FByteFile file = new FByteFile();
-         Serialize(file);
-         file.SaveFile(exportFileName);
+         // 存储配置
+         FXmlDocument xdoc = new FXmlDocument();
+         SaveConfig(xdoc.Root.CreateNode("Texture"));
+         xdoc.SaveFile(exportFilePath + "\\config.xml");
+         //............................................................
+         // 存储文件
+         foreach (FDrTextureBitmap bitmap in _bitmaps) {
+            string typeName = bitmap.TypeName;
+            RFile.Copy(bitmap.FileName, exportFilePath + "\\" + typeName + ".jpg", false);
+         }
          //............................................................
          // 释放资源
          Dispose();
-         _logger.Debug(this, "Export", "Export texture success. (file_name={0})", exportFileName);
+         _logger.Debug(this, "Export", "Export texture success. (path={0})", exportFilePath);
       }
 
       //============================================================
@@ -203,10 +215,18 @@ namespace MO.Content3d.Resource.Texture
          // 打开
          Open();
          // 压缩文件
-         FCompressFile file = new FCompressFile();
-         Serialize(file);
-         file.Compress(_exportFileName);
-         _logger.Debug(this, "Export", "Export texture success. (file_name={0})", _exportFileName);
+         //FCompressFile file = new FCompressFile();
+         //Serialize(file);
+         //file.Compress(_exportFileName);
+         //_logger.Debug(this, "Export", "Export texture success. (file_name={0})", _exportFileName);
+         //............................................................
+         // 序列化数据2
+         string exportFilePath = RContent3dManager.TextureConsole.ExportDirectory + "\\" + Code;
+         RDirectory.MakeDirectories(exportFilePath);
+         foreach(FDrTextureBitmap bitmap in _bitmaps) {
+            string code = bitmap.Code;
+            string bitmaoFileName = bitmap.FileName;
+         }
          // 释放资源
          Dispose();
       }

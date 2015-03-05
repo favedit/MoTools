@@ -52,6 +52,7 @@ namespace MO.Content3d.Resource.Scene
                   continue;
                }
                FDrScene scene = new FDrScene();
+               scene.Group = this;
                scene.Name = _name;
                scene.Label = _label;
                scene.TechniqueName = name;

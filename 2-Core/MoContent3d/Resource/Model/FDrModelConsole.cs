@@ -48,7 +48,7 @@ namespace MO.Content3d.Resource.Model
       // @param folder 文件夹
       // @param path 路径
       //============================================================
-      private void ScanNodes(FDrFolder folder, string path) {
+      private void ScanNodes(FDrFolder folder, string path, string pathLabel) {
          string fileTag = string.Empty;
          // 文件夹排序
          folder.Folders.Sort();
@@ -59,7 +59,8 @@ namespace MO.Content3d.Resource.Model
             if(items.Length >= 3) {
                string type = items[0];
                string dotPath = path + "\\" + items[1];
-               if("fd" == type) {
+               string dotPathLabel = pathLabel + "\\" + items[2];
+               if ("fd" == type) {
                   subfloder.Type = "folder";
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                } else if("md" == type) {
@@ -68,6 +69,7 @@ namespace MO.Content3d.Resource.Model
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                   model.Name = dotPath;
                   model.Label = items[2];
+                  model.FullLabel = dotPathLabel;
                   model.Directory = subfloder.Directory;
                   model.DirectoryExprot = _exportDirectory;
                   model.Scan();
@@ -76,7 +78,7 @@ namespace MO.Content3d.Resource.Model
                   _models.Set(model.Code, model);
                   _folders.Push(subfloder);
                }
-               ScanNodes(subfloder, dotPath);
+               ScanNodes(subfloder, dotPath, dotPathLabel);
             }
          }
       }
@@ -86,7 +88,7 @@ namespace MO.Content3d.Resource.Model
       //============================================================
       public override void Open() {
          base.Open();
-         ScanNodes(_folder, String.Empty);
+         ScanNodes(_folder, String.Empty, String.Empty);
       }
 
       //============================================================

@@ -49,7 +49,7 @@ namespace MO.Content3d.Resource.Texture
       // @param folder 文件夹
       // @param path 路径
       //============================================================
-      protected void ScanNodes(FDrFolder folder, string path) {
+      protected void ScanNodes(FDrFolder folder, string path, string pathLabel) {
          string fileTag = string.Empty;
          // 文件夹排序
          folder.Folders.Sort();
@@ -60,7 +60,8 @@ namespace MO.Content3d.Resource.Texture
             if(items.Length >= 3) {
                string type = items[0];
                string dotPath = path + "\\" + items[1];
-               if("fd" == type) {
+               string dotPathLabel = pathLabel + "\\" + items[2];
+               if ("fd" == type) {
                   // 存储文件夹
                   subfloder.Type = "folder";
                   subfloder.Label = items[1] + " [" + items[2] + "]";
@@ -71,6 +72,7 @@ namespace MO.Content3d.Resource.Texture
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                   texture.Name = dotPath;
                   texture.Label = items[2];
+                  texture.FullLabel = dotPathLabel;
                   texture.Folder = subfloder;
                   texture.Directory = subfloder.Directory;
                   texture.DirectoryExprot = _exportDirectory;
@@ -86,6 +88,7 @@ namespace MO.Content3d.Resource.Texture
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                   texture.Name = dotPath;
                   texture.Label = items[2];
+                  texture.FullLabel = dotPathLabel;
                   texture.Folder = subfloder;
                   texture.Directory = subfloder.Directory;
                   texture.DirectoryExprot = _exportDirectory;
@@ -101,6 +104,7 @@ namespace MO.Content3d.Resource.Texture
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                   texture.Name = dotPath;
                   texture.Label = items[2];
+                  texture.FullLabel = dotPathLabel;
                   texture.Folder = subfloder;
                   texture.Directory = subfloder.Directory;
                   texture.DirectoryExprot = _exportDirectory;
@@ -116,6 +120,7 @@ namespace MO.Content3d.Resource.Texture
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                   texture.Name = dotPath;
                   texture.Label = items[2];
+                  texture.FullLabel = dotPathLabel;
                   texture.Folder = subfloder;
                   texture.Directory = subfloder.Directory;
                   texture.DirectoryExprot = _exportDirectory;
@@ -125,7 +130,7 @@ namespace MO.Content3d.Resource.Texture
                   _textures.Set(texture.Code, texture);
                   _folders.Push(subfloder);
                }
-               ScanNodes(subfloder, dotPath);
+               ScanNodes(subfloder, dotPath, dotPathLabel);
             }
          }
       }
@@ -135,7 +140,7 @@ namespace MO.Content3d.Resource.Texture
       //============================================================
       public override void Open() {
          base.Open();
-         ScanNodes(_folder as FDrFolder, String.Empty);
+         ScanNodes(_folder as FDrFolder, String.Empty, String.Empty);
       }
 
       //============================================================

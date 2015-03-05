@@ -113,7 +113,7 @@ namespace MO.Content3d.Resource.Material
       //============================================================
       public void ExportConfig(FXmlNode xconfig) {
          // 存储属性
-         xconfig.Set("effect_code", _effectName);
+         xconfig.Set("effect_code", RString.Nvl(_effectName, "automatic"));
          //xconfig.Set("transform_code", _transformName);
          //xconfig.Set("option_light", _optionLight);
          //xconfig.Set("option_merge", _optionMerge);
@@ -123,21 +123,21 @@ namespace MO.Content3d.Resource.Material
          //xconfig.Set("option_depth", _optionDepth);
          //xconfig.Set("option_compare", _optionCompare);
          xconfig.Set("option_double", _optionDouble);
-         //xconfig.Set("option_shadow", _optionShadow);
-         //xconfig.Set("option_shadow_self", _optionShadowSelf);
+         xconfig.Set("option_shadow", _optionShadow);
+         xconfig.Set("option_shadow_self", _optionShadowSelf);
          //xconfig.Set("option_dynamic", _optionDynamic);
          //xconfig.Set("option_transmittance", _optionTransmittance);
          //xconfig.Set("option_opacity", _optionOpacity);
          // 存储纹理
-         //FXmlNode xcoord = xconfig.CreateNode("Coord");
-         //xcoord.Set("rate_width", _coordRateWidth);
-         //xcoord.Set("rate_height", _coordRateHeight);
+         FXmlNode xcoord = xconfig.CreateNode("Coord");
+         xcoord.Set("rate_width", _coordRateWidth);
+         xcoord.Set("rate_height", _coordRateHeight);
          // 存储颜色
-         //FXmlNode xcolor = xconfig.CreateNode("Color");
-         //xcolor.Set("min", _colorMin);
-         //xcolor.Set("max", _colorMax);
-         ////xcolor.Set("rate", _colorRate);
-         //xcolor.Set("merge", _colorMerge);
+         FXmlNode xcolor = xconfig.CreateNode("Color");
+         xcolor.Set("min", _colorMin);
+         xcolor.Set("max", _colorMax);
+         xcolor.Set("rate", _colorRate);
+         xcolor.Set("merge", _colorMerge);
          // 读取透明信息
          FXmlNode xalpha = xconfig.CreateNode("Alpha");
          xalpha.Set("base", _alphaBase);
@@ -147,47 +147,46 @@ namespace MO.Content3d.Resource.Material
          // 存储环境光
          FXmlNode xambient = xconfig.CreateNode("Ambient");
          _ambientColor.SaveConfigPower(xambient);
-         //xambient.Set("shadow", _ambientShadow);
+         xambient.Set("shadow", _ambientShadow);
          // 存储散射光
          FXmlNode xdiffuse = xconfig.CreateNode("Diffuse");
          _diffuseColor.SaveConfigPower(xdiffuse);
-         //xdiffuse.Set("shadow", _diffuseShadow);
+         xdiffuse.Set("shadow", _diffuseShadow);
          // 存储视角散射光
          FXmlNode xdiffuseview = xconfig.CreateNode("DiffuseView");
          _diffuseViewColor.SaveConfigPower(xdiffuseview);
-         //xdiffuseview.Set("shadow", _diffuseViewShadow);
+         xdiffuseview.Set("shadow", _diffuseViewShadow);
          //// 存储高光
          FXmlNode xspecular = xconfig.CreateNode("Specular");
          _specularColor.SaveConfigPower(xspecular);
-         //xspecular.Set("base", _specularBase);
+         xspecular.Set("base", _specularBase);
          xspecular.Set("level", _specularRate);
          //xspecular.Set("average", _specularAverage);
-         //xspecular.Set("shadow", _specularShadow);
+         xspecular.Set("shadow", _specularShadow);
          // 存储视角高光
          FXmlNode xspecularview = xconfig.CreateNode("SpecularView");
          _specularViewColor.SaveConfigPower(xspecularview);
-         //xspecularview.Set("base", _specularViewBase);
+         xspecularview.Set("base", _specularViewBase);
          xspecularview.Set("level", _specularViewRate);
          //xspecularview.Set("average", _specularViewAverage);
-         //xspecularview.Set("shadow", _specularViewShadow);
+         xspecularview.Set("shadow", _specularViewShadow);
          // 存储反射
          FXmlNode xreflect = xconfig.CreateNode("Reflect");
          _reflectColor.SaveConfigPower(xreflect);
          xreflect.Set("merge", _reflectMerge);
-         //xreflect.Set("shadow", _reflectShadow);
          // 存储前折射
          FXmlNode xrefractFront = xconfig.CreateNode("RefractFront");
          _refractFrontColor.SaveConfigPower(xrefractFront);
          // 存储后折射
          FXmlNode xrefractBack = xconfig.CreateNode("RefractBack");
          _refractBackColor.SaveConfigPower(xrefractBack);
-         //// 存储不发光度
-         //FXmlNode xopacity = xconfig.CreateNode("Opacity");
-         //_opacityColorColor.SaveConfigPower(xopacity);
-         //xopacity.Set("rate", _opacityRate);
-         //xopacity.Set("alpha", _opacityAlpha);
-         //xopacity.Set("depth", _opacityDepth);
-         //xopacity.Set("transmittance", _opacityTransmittance);
+         // 存储不发光度
+         FXmlNode xopacity = xconfig.CreateNode("Opacity");
+         _opacityColorColor.SaveConfigPower(xopacity);
+         xopacity.Set("rate", _opacityRate);
+         xopacity.Set("alpha", _opacityAlpha);
+         xopacity.Set("depth", _opacityDepth);
+         xopacity.Set("transmittance", _opacityTransmittance);
          // 存储自发光
          FXmlNode xemissive = xconfig.CreateNode("Emissive");
          _emissiveColor.SaveConfigPower(xemissive);

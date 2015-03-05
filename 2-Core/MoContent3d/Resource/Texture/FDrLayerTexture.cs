@@ -61,11 +61,9 @@ namespace MO.Content3d.Resource.Texture
       // @param config 配置信息
       //============================================================
       public override void SaveConfig(FXmlNode config) {
-         // 设置信息
-         config.Set("name", _name);
-         config.Set("label", _label);
+         base.SaveConfig(config);
          // 存储位图列表
-         foreach(FDrTextureBitmap bitmap in _bitmaps) {
+         foreach (FDrTextureBitmap bitmap in _bitmaps) {
             bitmap.SaveConfig(config.CreateNode("Bitmap"));
          }
       }

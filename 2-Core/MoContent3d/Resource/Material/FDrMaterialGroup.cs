@@ -505,6 +505,7 @@ namespace MO.Content3d.Resource.Material
       //============================================================
       public void ExportConfig(FXmlNode xconfig) {
          xconfig.Set("code", Code);
+         xconfig.Set("label", _label);
          // 存储贴图
          if (!_textures.IsEmpty) {
             FXmlNode xtextures = xconfig.CreateNode("TextureCollection");

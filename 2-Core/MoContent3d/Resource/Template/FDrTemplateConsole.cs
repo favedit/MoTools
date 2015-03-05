@@ -56,7 +56,7 @@ namespace MO.Content3d.Resource.Template
       // @param folder 文件夹
       // @param path 路径
       //============================================================
-      protected void ScanNodes(FDrFolder folder, string path) {
+      protected void ScanNodes(FDrFolder folder, string path, string pathLabel) {
          string fileTag = string.Empty;
          // 文件夹排序
          folder.Folders.Sort();
@@ -67,7 +67,8 @@ namespace MO.Content3d.Resource.Template
             if(items.Length >= 3) {
                string type = items[0];
                string dotPath = path + "\\" + items[1];
-               if("fd" == type) {
+               string dotPathLabel = pathLabel + "\\" + items[2];
+               if ("fd" == type) {
                   subfloder.Type = "folder";
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                } else if("tp" == type) {
@@ -76,6 +77,7 @@ namespace MO.Content3d.Resource.Template
                   subfloder.Label = items[1] + " [" + items[2] + "]";
                   template.Name = dotPath;
                   template.Label = items[2];
+                  template.FullLabel = dotPathLabel;
                   template.Directory = subfloder.Directory;
                   // template.ExportPath = _exportDirectory;
                   template.Scan();
@@ -84,7 +86,7 @@ namespace MO.Content3d.Resource.Template
                   _templates.Set(template.Code, template);
                   _folders.Push(subfloder);
                }
-               ScanNodes(subfloder, dotPath);
+               ScanNodes(subfloder, dotPath, dotPathLabel);
             }
          }
       }
@@ -94,7 +96,7 @@ namespace MO.Content3d.Resource.Template
       //============================================================
       public override void Open() {
          base.Open();
-         ScanNodes(_folder as FDrFolder, String.Empty);
+         ScanNodes(_folder as FDrFolder, String.Empty, String.Empty);
       }
       
       //============================================================

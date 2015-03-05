@@ -28,6 +28,28 @@ namespace MO.Common.Geom
       }
 
       //============================================================
+      // <T>判断数据是否相等。</T>
+      //
+      // @param value 数据
+      // @return 是否相等
+      //============================================================
+      public bool EqualsData(SFloatQuaternion value) {
+         if (X != value.X) {
+            return false;
+         }
+         if (Y != value.Y) {
+            return false;
+         }
+         if (Z != value.Z) {
+            return false;
+         }
+         if (W != value.W) {
+            return false;
+         }
+         return true;
+      }
+
+      //============================================================
       public void Clear() {
          X = 0.0f;
          Y = 0.0f;

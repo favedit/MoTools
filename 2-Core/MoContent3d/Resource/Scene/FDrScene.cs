@@ -19,6 +19,9 @@ namespace MO.Content3d.Resource.Scene
       // 日志输出接口
       private static ILogger _logger = RLogger.Find(typeof(FDrScene));
 
+      // 场景组
+      protected FDrSceneGroup _group = null;
+
       // 主题名称
       protected string _themeName = "shadow";
 
@@ -56,6 +59,14 @@ namespace MO.Content3d.Resource.Scene
          _sky.Scene = this;
          _map.Scene = this;
          _space.Scene = this;
+      }
+
+      //============================================================
+      // <T>获得或设置场景组。</T>
+      //============================================================
+      public FDrSceneGroup Group {
+         get { return _group; }
+         set { _group = value; }
       }
 
       //============================================================
@@ -266,8 +277,11 @@ namespace MO.Content3d.Resource.Scene
       // @param output 输出流
       //============================================================
       public override void Serialize(IOutput output) {
+         // 输出属性
          base.Serialize(output);
+         output.WriteString(_name);
          output.WriteString(_label);
+         output.WriteString(_group.FullLabel);
          // 输出属性
          output.WriteString(_themeName);
          // 输出配置
@@ -353,7 +367,17 @@ namespace MO.Content3d.Resource.Scene
          // 打开资源
          Open();
          //............................................................
-         string exportFileName = RContent3dManager.SenceConsole.ExportDirectory + "\\" + Code + ".ser";
+         string name = null;
+         if ((_techniqueName == "config") || (_techniqueName == "simple")) {
+            name = "general";
+         }else if (_techniqueName == "shadow") {
+            name = "shadow.map";
+         } else {
+            name = _techniqueName;
+         }
+         string exportPath = RContent3dManager.SenceConsole.ExportDirectory + "\\" + Code;
+         RDirectory.MakeDirectories(exportPath);
+         string exportFileName = exportPath + "\\" + name + ".ser";
          //............................................................
          // 序列化数据
          FByteFile file = new FByteFile();
