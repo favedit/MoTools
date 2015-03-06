@@ -152,6 +152,7 @@ namespace MO.Content3d.Resource.Model.Mesh
       public FDrGeometry(FDrModel model) {
          _model = model;
          _track = new FDrTrack(model);
+         _track.Geometry = this;
       }
 
       //============================================================

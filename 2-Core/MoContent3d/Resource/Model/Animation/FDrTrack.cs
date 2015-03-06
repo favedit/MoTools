@@ -5,6 +5,7 @@ using MO.Common.IO;
 using MO.Common.Lang;
 using MO.Content3d.Resource.Common;
 using MO.Content3d.Common;
+using MO.Content3d.Resource.Model.Mesh;
 
 namespace MO.Content3d.Resource.Model.Animation
 {
@@ -18,6 +19,9 @@ namespace MO.Content3d.Resource.Model.Animation
 
       // 模型
       protected FDrModel _model;
+
+      // 几何体
+      protected FDrGeometry _geometry;
 
       // 骨头编号
       protected int _boneId;
@@ -59,6 +63,14 @@ namespace MO.Content3d.Resource.Model.Animation
             }
          }
          return true;
+      }
+
+      //============================================================
+      // <T>获得或设置几何体。</T>
+      //============================================================
+      public FDrGeometry Geometry {
+         get { return _geometry; }
+         set { _geometry = value; }
       }
 
       //============================================================
@@ -238,6 +250,12 @@ namespace MO.Content3d.Resource.Model.Animation
       //============================================================
       public void Serialize2(IOutput output) {
          // _logger.Debug(this, "Serialize", "Serialize track success. (bone_id={0}, frame_count={1})", _bone.AdjustId, _frameList.Count);
+         // 输出网格信息
+         if (_geometry == null) {
+            output.WriteString(null);
+         } else {
+            output.WriteString(_geometry.Name);
+         }
          // 输出骨骼信息
          int adjustId = 0;
          if (null != _bone) {
