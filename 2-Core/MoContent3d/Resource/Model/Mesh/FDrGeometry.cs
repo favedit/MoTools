@@ -71,6 +71,9 @@ namespace MO.Content3d.Resource.Model.Mesh
       // 设置地面
       protected int _optionGround = EDrFlag.Inherit;
 
+      // 材质个数
+      protected int _materialCount = 0;
+
       // 实体化个数
       protected int _instanceCount = 1;
 
@@ -1213,6 +1216,9 @@ namespace MO.Content3d.Resource.Model.Mesh
             FDrFace face = new FDrFace();
             face.Index = n;
             face.DataUnserialize(this, input);
+            if (face.MaterialId > _materialCount) {
+               _materialCount = face.MaterialId;
+            }
             _faceList.Push(face);
          }
          // 读取通道信息
@@ -1478,15 +1484,40 @@ namespace MO.Content3d.Resource.Model.Mesh
             }
             //............................................................
             // 输出索引信息
-            streamCount++;
-            int faceCount = _faceList.Count;
-            stream.WriteString(EContent3dAttribute.Index32);
-            stream.WriteInt8((sbyte)EDrData.Int32);
-            stream.WriteInt8(3);
-            stream.WriteInt16(sizeof(int) * 3);
-            stream.WriteInt32(faceCount);
-            for (int n = 0; n < faceCount; n++) {
-               _faceList[n].Serialize2(stream);
+            if (_materialCount > 0) {
+               for (int materialIndex = 0; materialIndex <= _materialCount; materialIndex++) {
+                  streamCount++;
+                  int faceTotal = _faceList.Count;
+                  // 计算面数
+                  int faceCount = 0;
+                  for (int n = 0; n < faceTotal; n++) {
+                     if (_faceList[n].MaterialId == materialIndex) {
+                        faceCount++;
+                     }
+                  }
+                  // 输出数据流
+                  stream.WriteString(EContent3dAttribute.Index32);
+                  stream.WriteInt8((sbyte)EDrData.Int32);
+                  stream.WriteInt8(3);
+                  stream.WriteInt16(sizeof(int) * 3);
+                  stream.WriteInt32(faceCount);
+                  for (int n = 0; n < faceTotal; n++) {
+                     if (_faceList[n].MaterialId == materialIndex) {
+                        _faceList[n].Serialize2(stream);
+                     }
+                  }
+               }
+            } else {
+               streamCount++;
+               int faceCount = _faceList.Count;
+               stream.WriteString(EContent3dAttribute.Index32);
+               stream.WriteInt8((sbyte)EDrData.Int32);
+               stream.WriteInt8(3);
+               stream.WriteInt16(sizeof(int) * 3);
+               stream.WriteInt32(faceCount);
+               for (int n = 0; n < faceCount; n++) {
+                  _faceList[n].Serialize2(stream);
+               }
             }
             // 写入流信息
             output.WriteInt32(streamCount);

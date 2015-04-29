@@ -46,6 +46,13 @@ namespace MO.Content3d.Resource.Model.Mesh {
       protected SDrIndex _visibleIndex = new SDrIndex();
 
       //============================================================
+      // <T>获得材质索引。</T>
+      //============================================================
+      public int MaterialId {
+         get { return _materialId; }
+      }
+
+      //============================================================
       // <T>获得顶点索引。</T>
       //============================================================
       public SDrIndex VertexIndex {
